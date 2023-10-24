@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(AuthController::class)->group(function() {
+    Route::get('/register', 'register')->name('register')->middleware('isLogin');
+    Route::post('/register', 'doRegister')->name('do.register');
+    
+    Route::get('/login', 'login')->name('login')->middleware('isLogin');
+    Route::post('/login', 'doLogin')->name('do.login');
+
+    Route::get('/logout', 'logout')->name('logout');
+});
+
+// Admin
+Route::group(['middleware'=>['isAdmin']], function() {
+});
+Route::middleware('isAdmin')->group(function() {
+    Route::prefix('admin')->group(function() {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
+});
+
+// Customer
+Route::middleware('isCustomer')->group(function() {
+    Route::controller(HomeController::class)->group(function() {
+        Route::get('/', 'index')->name('home');
+    });
 });
