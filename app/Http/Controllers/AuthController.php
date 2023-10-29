@@ -19,14 +19,7 @@ class AuthController extends Controller
     }
 
     public function doRegister(AuthRegisterRequest $request)
-    {
-        // if(User::where('phone_number', $request->phone_number)->exists()) {
-        //     return back()->with('errHP', 'Nomor HP yang Anda masukkan sudah terpakai');
-        // }
-        // elseif(User::where('email', $request->email)->exists()) {
-        //     return back()->with('errEmail', 'Email yang Anda masukkan sudah terpakai');
-        // }
-        
+    {   
         $user = User::create([
             'name' => $request->name,
 			'email' => $request->email,
