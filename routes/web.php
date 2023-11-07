@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,5 +40,9 @@ Route::middleware('isAdmin')->group(function() {
 Route::middleware('isCustomer')->group(function() {
     Route::controller(HomeController::class)->group(function() {
         Route::get('/', 'index')->name('home');
+    });
+
+    Route::controller(TransactionController::class)->group(function() {
+        Route::get('/booking/{slug}', 'detailCourt');
     });
 });

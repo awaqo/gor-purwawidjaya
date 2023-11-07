@@ -4,56 +4,50 @@
 
 @section('content')
     <div class="my-5">
-        <h1>Halaman Customer</h1>
-
-        @guest
-            <div>Anda belum login</div>
-            <a class="d-flex" href="{{ route('login') }}">Login</a>
-            <a class="d-flex" href="{{ route('register') }}">Register</a>
-            <a class="d-flex" href="{{ route('logout') }}">Logout</a>
-        @endguest
-
-        @auth
-            <div>Anda sudah login</div>
-            <div>Halo, {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</div>
-            <div>Halo, {{ ucwords(Auth::user()->name) }}</div>
-            <div>{{ Auth::user()->role }}</div>
-            <div>{{ auth()->user()->name }}</div>
-            <div>{{ auth()->user()->role }}</div>
-
-            <a class="d-flex" href="{{ route('logout') }}">Logout</a>
-            <a class="d-flex" href="{{ route('login') }}">cek middleware login</a>
-            <a class="d-flex" href="{{ route('register') }}">cek middleware register</a>
-
-        @endauth
-        <a class="d-flex" href="{{ route('dashboard') }}">admin</a>
-
-        <hr class="border border-primary border-3 opacity-75">
-
-        {{-- Lapangan --}}
-        <div class="h2">Daftar Lapangan</div>
-        {{ $courts }}
-        {{-- {{ dd($courts) }} --}}
-
-        <div class="row justify-content-center border">
-            @foreach ($courts as $item)
-                <a href="{{ url('booking/'.$item->court->slug) }}" class="col-12 col-md-4 link-underline link-underline-opacity-0">
-                    <div class="card">
-                        <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item->court->name }}</h5>
-                            <p class="card-text">{{ $item->court->description }}</p>
-                        </div>
+        <div class="col">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="height: 80vh">
+                        <img src="{{ asset(Storage::url($court[0]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
+                            alt="a">
                     </div>
-                </a>
-            @endforeach
+                    <div class="carousel-item" style="height: 80vh">
+                        <img src="{{ asset(Storage::url($court[1]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
+                            alt="s">
+                    </div>
+                    <div class="carousel-item" style="height: 80vh">
+                        <img src="{{ asset(Storage::url($court[2]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
+                            alt="d">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
         </div>
 
-        <div>{{ $date }}</div>
+        <h1 class="mt-3">{{ $court[0]->name }}</h1>
+
         {{-- Jadwal yang tersedia --}}
         @php
             $disabled = '';
         @endphp
+        {{ $date }}
         @if ($weekday == 'Min' || $weekday == 'Sab')
             <div class="h2">Jadwal Tersedia : Weekend</div>
             @foreach ($schedules as $schedule)
@@ -120,52 +114,4 @@
             @endforeach
         @endif
     </div>
-
-    {{-- pop up --}}
-
-    @if (Session::has('message'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Login Berhasil',
-                text: "{{ Session::get('message') }}",
-                confirmButtonText: 'OK',
-                timer: 3000,
-                timerProgressBar: true,
-            })
-        </script>
-    @elseif (Session::has('regSuccess'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil Registrasi Akun',
-                text: "{{ Session::get('regSuccess') }}",
-                confirmButtonText: 'OK',
-                timer: 3000,
-                timerProgressBar: true,
-            })
-        </script>
-    @elseif (Session::has('AdminArea'))
-        <script>
-            Swal.fire({
-                icon: 'warning',
-                title: 'Admin Only',
-                text: "{{ Session::get('AdminArea') }}",
-                confirmButtonText: 'OK',
-                timer: 3000,
-                timerProgressBar: true,
-            })
-        </script>
-    @elseif (Session::has('islogin'))
-        <script>
-            Swal.fire({
-                icon: 'info',
-                text: "{{ Session::get('islogin') }}",
-                confirmButtonText: 'OK',
-                timer: 3000,
-                timerProgressBar: true,
-            })
-        </script>
-    @endif
-
 @endsection

@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreign('schedule_id')->references('id')->on('schedules');
             $table->integer('total')->unsigned();
             $table->string('payment_metode');
-            $table->enum('payment_status', ['paid', 'unpaid']);
-            $table->enum('order_status', ['need_confirm', 'confirmed', 'completed', 'cancelled']);
+            $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
+            $table->enum('order_status', ['need_confirm', 'confirmed', 'completed', 'cancelled'])->default('need_confirm');
             $table->timestamps();
         });
     }

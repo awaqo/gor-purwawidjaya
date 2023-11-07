@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Court;
+use App\Models\CourtImages;
 use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,7 +29,11 @@ class HomeController extends Controller
 
         $today = Carbon::now()->format('H');
 
-        $courts = Court::get();
+        $courts = CourtImages::select('id', 'court_id', 'image')
+            ->with('court')
+            // ->distinct()
+            ->groupBy('court_id')
+            ->get();
 
         if ($weekday == 'Min' || $weekday == 'Sab')
         {
@@ -36,8 +41,9 @@ class HomeController extends Controller
         } else {
             $schedules = Schedule::where('id', '>=', 11)->get();
         }
+        $date = date('l');
 
-        return view('customer.index', compact('weekday', 'courts', 'schedules', 'today'));
+        return view('customer.index', compact('weekday', 'courts', 'schedules', 'today', 'date'));
     }
 
     /**
