@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('court_images', function (Blueprint $table) {
+        Schema::create('booked_schedules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('court_id');
-            $table->foreign('court_id')->references('id')->on('courts');
-            $table->string('image');
+            $table->unsignedBigInteger('booked_id');
+            $table->unsignedBigInteger('schedule_id');
+            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->string('timeStart');
+            $table->string('timeEnd');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('court_images');
+        Schema::dropIfExists('booked_schedules');
     }
 };

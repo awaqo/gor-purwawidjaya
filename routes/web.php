@@ -44,5 +44,7 @@ Route::middleware('isCustomer')->group(function() {
 
     Route::controller(TransactionController::class)->group(function() {
         Route::get('/booking/{slug}', 'detailCourt');
+
+        Route::post('/booking-lapangan', 'bookCourt')->name('bookCourt')->middleware('checkLogin');
     });
 });

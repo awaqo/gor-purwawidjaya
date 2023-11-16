@@ -117,6 +117,8 @@ class ScheduleSeeder extends Seeder
                 'timeStart' => $item['timeStart'],
                 'timeEnd' => $item['timeEnd'],
                 'price' => $item['price'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

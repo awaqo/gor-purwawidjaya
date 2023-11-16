@@ -48,77 +48,6 @@
                 </a>
             @endforeach
         </div>
-
-        <div>{{ $date }}</div>
-        {{-- Jadwal yang tersedia --}}
-        @php
-            $disabled = '';
-        @endphp
-        @if ($weekday == 'Min' || $weekday == 'Sab')
-            <div class="h2">Jadwal Tersedia : Weekend</div>
-            @foreach ($schedules as $schedule)
-                @if ($schedule->timeStart < $today && $schedule->timeEnd <= $today)
-                    @php
-                        $disabled = 'disabled';
-                    @endphp
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                            value="option-{{ $schedule->id }}" {{ $disabled }}>
-                        <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                            <div class="d-flex">
-                                <div>{{ $schedule->timeStart }}.00</div>
-                                <div>&nbsp;-&nbsp;</div>
-                                <div>{{ $schedule->timeEnd }}.00</div>
-                            </div>
-                        </label>
-                    </div>
-                @else
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                            value="option-{{ $schedule->id }}">
-                        <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                            <div class="d-flex">
-                                <div>{{ $schedule->timeStart }}.00</div>
-                                <div>&nbsp;-&nbsp;</div>
-                                <div>{{ $schedule->timeEnd }}.00</div>
-                            </div>
-                        </label>
-                    </div>
-                @endif
-            @endforeach
-        @else
-            <div class="h2">Jadwal Tersedia : Weekday</div>
-            @foreach ($schedules as $schedule)
-                @if ($schedule->timeStart < $today && $schedule->timeEnd <= $today)
-                    @php
-                        $disabled = 'disabled';
-                    @endphp
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                            value="option-{{ $schedule->id }}" {{ $disabled }}>
-                        <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                            <div class="d-flex">
-                                <div>{{ $schedule->timeStart }}.00</div>
-                                <div>&nbsp;-&nbsp;</div>
-                                <div>{{ $schedule->timeEnd }}.00</div>
-                            </div>
-                        </label>
-                    </div>
-                @else
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                            value="option-{{ $schedule->id }}">
-                        <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                            <div class="d-flex">
-                                <div>{{ $schedule->timeStart }}.00</div>
-                                <div>&nbsp;-&nbsp;</div>
-                                <div>{{ $schedule->timeEnd }}.00</div>
-                            </div>
-                        </label>
-                    </div>
-                @endif
-            @endforeach
-        @endif
     </div>
 
     {{-- pop up --}}
@@ -143,6 +72,15 @@
                 confirmButtonText: 'OK',
                 timer: 3000,
                 timerProgressBar: true,
+            })
+        </script>
+    @elseif (Session::has('successBooking'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Booking Berhasil',
+                text: "{{ Session::get('successBooking') }}",
+                confirmButtonText: 'OK',
             })
         </script>
     @elseif (Session::has('AdminArea'))

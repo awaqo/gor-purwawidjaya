@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('timeStart');
             $table->string('timeEnd');
             $table->integer('price')->unsigned()->default(0);
-            $table->enum('availability', ['available', 'booked'])->default('available');
+            $table->timestamps();
         });
     }
 

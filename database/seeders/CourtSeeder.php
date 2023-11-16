@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Court;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +38,8 @@ class CourtSeeder extends Seeder
                 'name' => $item['name'],
                 'slug' => $slug,
                 'description' => $item['description'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }

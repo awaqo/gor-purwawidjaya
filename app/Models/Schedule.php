@@ -10,7 +10,8 @@ class Schedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'time',
+        'timeStart',
+        'timeEnd',
         'price',
     ];
 }

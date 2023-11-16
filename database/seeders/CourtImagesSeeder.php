@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CourtImages;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -68,6 +69,8 @@ class CourtImagesSeeder extends Seeder
             CourtImages::insert([
                 'court_id' => $item['court_id'],
                 'image' => 'assets/court/' . $imageName,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]);
         }
     }
