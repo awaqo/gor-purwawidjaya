@@ -32,9 +32,6 @@
 
         {{-- Lapangan --}}
         <div class="h2">Daftar Lapangan</div>
-        {{ $courts }}
-        {{-- {{ dd($courts) }} --}}
-
         <div class="row justify-content-center border">
             @foreach ($courts as $item)
                 <a href="{{ url('booking/'.$item->court->slug) }}" class="col-12 col-md-4 link-underline link-underline-opacity-0">

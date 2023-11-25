@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('timeStart');
             $table->string('timeEnd');
-            $table->integer('price')->unsigned()->default(0);
+            $table->integer('price');
             $table->timestamps();
         });
     }

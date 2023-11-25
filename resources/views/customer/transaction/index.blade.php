@@ -44,10 +44,6 @@
             <h1 class="mt-3">{{ $court[0]->name }}</h1>
 
             {{-- Jadwal yang tersedia --}}
-            @php
-                $disabled = '';
-            @endphp
-            {{ $date }}
 
             {{-- 
                 - middleware check login ketika tekan tombol booking lapangan
@@ -55,17 +51,13 @@
                 - bikin migration baru untuk data jadwal yang terbooking (done)
                 - cek ulang sistem booking 
                     - price (done)
-                    - disabled jadwal yang sudah terbooking (done(?))
-                - benerin show jadwal booked (done(?))
-                - update ulang availability setelah jam habis
+                    - disabled jadwal yang sudah terbooking sesuai hari(done)
+                - benerin show jadwal booked (done)
+                - update ulang availability setelah ganti hari (done)
+                - TODO: ubah jadwal yang tersedia menyesuaikan weekend / weekday setelah user memilih hari melalui datepicker
                 
                 --}}
-            <div class="h2">Jadwal Tersedia : @if ($weekday == 'Min' || $weekday == 'Sab')
-                    Weekend
-                @else
-                    Weekday
-                @endif
-            </div>
+
             <form action="{{ url('/booking-lapangan') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if ($booked_schedule->count() < 1)
@@ -74,63 +66,71 @@
                     @endphp
                 @else
                     @php
-                        $booked_id = $latest->id;
+                        $booked_id = $latest->booking_id;
+                        $booked_id += 1;
                     @endphp
                 @endif
                 <input type="hidden" name="court_id" value="{{ $court[0]->court_id }}">
                 <input type="hidden" name="booked_id" value="{{ $booked_id }}">
+                {{-- @foreach ($checkBooked as $item)
+                    <input type="hidden" id="bookDate" value="{{ $item->date }}">
+                @endforeach --}}
 
-                {{-- @forelse ($checkBooked as $item)
-                    @php
-                        $checkbook = $item->timeStart;
-                        $checkcourt = $item->court_id;
-                    @endphp
-                    {{ $checkbook }}
-                @empty
-                    @php
-                        $checkbook = '';
-                        $checkcourt = '';
-                    @endphp
-                @endforelse --}}
-                <div class="d-flex flex-wrap">
-                    @foreach ($schedules as $schedule)
-                        @php
-                            $disabled = 'disabled';
-                            $enable = '';
-                        @endphp
-
-                        <div></div>
-                        {{-- {{ $schedule }} --}}
-                        <div class="col-md-2">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                                    name="selectedSchedule[]" value="{{ $schedule->id }}"
-                                    @forelse ($checkBooked as $item) @php
-                                            $start = $item->timeStart;
-                                            $end = $item->timeEnd;
-                                        @endphp
-                                        @if (($schedule->timeStart < $today && $schedule->timeEnd <= $today) ||
-                                                ($schedule->timeStart == $start && $schedule->timeEnd == $end && $court[0]->court_id == $item->court_id)) 
-                                            {{ $disabled }}
-                                        @else
-                                            {{ $enable }}
-                                        @endif
-                                    @empty
-
-                                    @endforelse>
-                                <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                    <div class="d-flex">
-                                        <div>{{ $schedule->timeStart }}.00</div>
-                                        <div>&nbsp;-&nbsp;</div>
-                                        <div>{{ $schedule->timeEnd }}.00</div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="col mb-3">
+                    <label for="name" class="form-label">Nama</label>
+                    <input type="text" class="form-control" name="name" id="name">
                 </div>
 
-                <div class="col">
+                <div class="col mb-3">
+                    <label for="datepick" class="form-label">Pilih hari</label>
+                    <input id="datepick" name="datepick" type="date" min="{{ $startDate }}" max="{{ $endDate }}"
+                        class="form-control">
+                </div>
+
+                <div class="col mb-3">
+                    <label for="collapseThree" class="form-label">Jadwal Tersedia</label>
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <a class="form-control text-left collapsed text-decoration-none" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                    aria-controls="collapseThree">
+                                    Pilih Jadwal
+                                </a>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="d-flex flex-wrap">
+                                        @foreach ($schedules as $schedule)
+                                            <div class="col-md-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input sch schedule-{{ $schedule->id }}"
+                                                        type="checkbox" id="schedule-{{ $schedule->id }}"
+                                                        name="selectedSchedule[]" value="{{ $schedule->id }}">
+                                                    <label class="form-check-label" for="schedule-{{ $schedule->id }}">
+                                                        <div class="d-flex">
+                                                            <div>{{ $schedule->timeStart }}.00</div>
+                                                            <div>&nbsp;-&nbsp;</div>
+                                                            <div>{{ $schedule->timeEnd }}.00</div>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            Rp {{ number_format($schedule->price, 0, ',', '.') }}
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{ $startDate }}
+
+                <div class="col mb-3">
                     <select class="form-select" name="payment_metode" required>
                         <option selected>Pilih metode</option>
                         <option value="Bank">Transfer Bank</option>
@@ -143,71 +143,6 @@
                     {{-- <a href="{{ url('/booking') }}" class="btn btn-outline-primary">Booking</a> --}}
                 </div>
             </form>
-            {{-- @if ($weekday == 'Min' || $weekday == 'Sab')
-                <div class="h2">Jadwal Tersedia : Weekend</div>
-                @foreach ($schedules as $schedule)
-                    @if ($schedule->timeStart < $today && $schedule->timeEnd <= $today)
-                        @php
-                            $disabled = 'disabled';
-                        @endphp
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                                value="option-{{ $schedule->id }}" {{ $disabled }}>
-                            <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                <div class="d-flex">
-                                    <div>{{ $schedule->timeStart }}.00</div>
-                                    <div>&nbsp;-&nbsp;</div>
-                                    <div>{{ $schedule->timeEnd }}.00</div>
-                                </div>
-                            </label>
-                        </div>
-                    @else
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                                value="option-{{ $schedule->id }}">
-                            <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                <div class="d-flex">
-                                    <div>{{ $schedule->timeStart }}.00</div>
-                                    <div>&nbsp;-&nbsp;</div>
-                                    <div>{{ $schedule->timeEnd }}.00</div>
-                                </div>
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            @else
-                <div class="h2">Jadwal Tersedia : Weekday</div>
-                @foreach ($schedules as $schedule)
-                    @if ($schedule->timeStart < $today && $schedule->timeEnd <= $today)
-                        @php
-                            $disabled = 'disabled';
-                        @endphp
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                                value="option-{{ $schedule->id }}" {{ $disabled }}>
-                            <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                <div class="d-flex">
-                                    <div>{{ $schedule->timeStart }}.00</div>
-                                    <div>&nbsp;-&nbsp;</div>
-                                    <div>{{ $schedule->timeEnd }}.00</div>
-                                </div>
-                            </label>
-                        </div>
-                    @else
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="schedule-{{ $schedule->id }}"
-                                value="option-{{ $schedule->id }}">
-                            <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                <div class="d-flex">
-                                    <div>{{ $schedule->timeStart }}.00</div>
-                                    <div>&nbsp;-&nbsp;</div>
-                                    <div>{{ $schedule->timeEnd }}.00</div>
-                                </div>
-                            </label>
-                        </div>
-                    @endif
-                @endforeach
-            @endif --}}
         </div>
     </div>
 
@@ -228,5 +163,70 @@
 @endsection
 
 @push('scripts')
-    
+    <script>
+        var schedule = {!! json_encode($schedules->toArray()) !!};
+        // var checkBooking = {!! json_encode($checkBooked->toArray()) !!};
+
+        let today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var hour = today.getHours();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        $(document).ready(() => {
+            
+        });
+
+        $('#datepick').on("input", function() {
+            let date = $('#datepick').val();
+
+            console.log(today);
+            console.log(date);
+
+            if (date != today) {
+                console.log('hari tidak sama');
+                $('.sch').attr('disabled', false);
+            } else {
+                console.log('hari sama');
+
+                for (var i = 0; i < schedule.length; i++) {
+                    if (schedule[i].timeStart < hour && schedule[i].timeEnd <= hour) {
+                        let scid = 'schedule-' + schedule[i].id;
+                        $('.' + scid).attr('disabled', true);
+                    }
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('check-sch') }}",
+                    data: {
+                        date: date
+                    },
+                    success: (res) => {
+                        console.log(res);
+                        let resLength = Object.keys(res).length;
+                        console.log(resLength);
+                        for (var i = 0; i < resLength; i++) {
+                            console.log(i);
+                            console.log('schedule-' + res[i].schedule_id);
+                            console.log('schedule-' + res[i].date);
+                            let schid = 'schedule-' + res[i].schedule_id;
+                            if (res[i].date = date && res[i].court_id == {{ $court[0]->court_id }}) {
+                                $('.' + schid).attr('disabled', true)
+                            }
+                        }
+                        if (resLength < 1) {
+                            for (var i = 0; i < schedule.length; i++) {
+                                if (schedule[i].timeStart < hour && schedule[i].timeEnd <= hour) {
+                                    let scid = 'schedule-' + schedule[i].id;
+                                    $('.' + scid).attr('disabled', true);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        })
+    </script>
 @endpush

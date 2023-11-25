@@ -16,8 +16,8 @@ class Transaction extends Model
         return $this->belongsTo(Court::class, 'court_id', 'id');
     }
 
-    public function bookedSchedule()
+    public function booking()
     {
-        return $this->belongsToMany(Schedule::class, 'booked_id', 'id');
+        return $this->belongsTo(Booking::class, 'booking_id', 'id');
     }
 }

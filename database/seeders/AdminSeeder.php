@@ -24,10 +24,17 @@ class AdminSeeder extends Seeder
                 'role' => 'Admin'
             ],
             [
-                'name' => 'user',
-                'email' => 'user@gmail.com',
+                'name' => 'Randy M Sapoetra',
+                'email' => 'ocel@gmail.com',
                 'phone_number' => '098776512312',
-                'password' => bcrypt('user123'),
+                'password' => bcrypt('ocel123'),
+                'role' => 'User'
+            ],
+            [
+                'name' => 'Rusman Hadi',
+                'email' => 'hadi@gmail.com',
+                'phone_number' => '085776512312',
+                'password' => bcrypt('hadi123'),
                 'role' => 'User'
             ],
         ];

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description');
-            $table->enum('availability', ['available', 'booked'])->default('available');
+            // $table->enum('availability', ['available', 'booked'])->default('available');
             $table->timestamps();
         });
     }

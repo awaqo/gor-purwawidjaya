@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('court_id');
             $table->foreign('court_id')->references('id')->on('courts');
-            $table->unsignedBigInteger('booked_id');
-            $table->foreign('booked_id')->references('id')->on('booked_schedules');
+            $table->unsignedBigInteger('booking_id');
+            $table->foreign('booking_id')->references('id')->on('bookings');
             $table->integer('total')->unsigned();
             $table->string('payment_metode');
             $table->enum('payment_status', ['paid', 'unpaid'])->default('unpaid');
