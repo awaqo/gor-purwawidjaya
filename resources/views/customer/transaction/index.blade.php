@@ -41,20 +41,20 @@
             </div>
         </div>
         <div class="col-md-10 mx-auto">
+            <div class="timeStart"></div>
             <h1 class="mt-3">{{ $court[0]->name }}</h1>
 
             {{-- Jadwal yang tersedia --}}
 
             {{-- 
                 - middleware check login ketika tekan tombol booking lapangan
-                ==> next <== 
-                - bikin migration baru untuk data jadwal yang terbooking (done)
+                ==> TODO <== 
                 - cek ulang sistem booking 
                     - price (done)
                     - disabled jadwal yang sudah terbooking sesuai hari(done)
                 - benerin show jadwal booked (done)
                 - update ulang availability setelah ganti hari (done)
-                - TODO: ubah jadwal yang tersedia menyesuaikan weekend / weekday setelah user memilih hari melalui datepicker
+                - ubah jadwal yang tersedia menyesuaikan weekend / weekday setelah user memilih hari melalui datepicker (done)
                 
                 --}}
 
@@ -78,13 +78,13 @@
 
                 <div class="col mb-3">
                     <label for="name" class="form-label">Nama</label>
-                    <input type="text" class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name" required>
                 </div>
 
                 <div class="col mb-3">
                     <label for="datepick" class="form-label">Pilih hari</label>
                     <input id="datepick" name="datepick" type="date" min="{{ $startDate }}" max="{{ $endDate }}"
-                        class="form-control">
+                        class="form-control" required>
                 </div>
 
                 <div class="col mb-3">
@@ -101,26 +101,9 @@
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
                                 data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="d-flex flex-wrap">
-                                        @foreach ($schedules as $schedule)
-                                            <div class="col-md-2">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input sch schedule-{{ $schedule->id }}"
-                                                        type="checkbox" id="schedule-{{ $schedule->id }}"
-                                                        name="selectedSchedule[]" value="{{ $schedule->id }}">
-                                                    <label class="form-check-label" for="schedule-{{ $schedule->id }}">
-                                                        <div class="d-flex">
-                                                            <div>{{ $schedule->timeStart }}.00</div>
-                                                            <div>&nbsp;-&nbsp;</div>
-                                                            <div>{{ $schedule->timeEnd }}.00</div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            Rp {{ number_format($schedule->price, 0, ',', '.') }}
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                    <div id="chooseDate" class="fw-bold fst-italic">**Pilih tanggal terlebih dahulu</div>
+                                    <div class="d-flex flex-wrap show-time">
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -128,9 +111,8 @@
                     </div>
                 </div>
 
-                {{ $startDate }}
-
                 <div class="col mb-3">
+                    <label for="payment_metode" class="form-label">Metode Pembayaran</label>
                     <select class="form-select" name="payment_metode" required>
                         <option selected>Pilih metode</option>
                         <option value="Bank">Transfer Bank</option>
@@ -165,7 +147,6 @@
 @push('scripts')
     <script>
         var schedule = {!! json_encode($schedules->toArray()) !!};
-        // var checkBooking = {!! json_encode($checkBooked->toArray()) !!};
 
         let today = new Date();
         var dd = today.getDate();
@@ -178,25 +159,106 @@
             
         });
 
+        // cek weekend / weekday berdasarkan datepicker
+        var isWeekend = function(date1) {
+            var dt = new Date(date1);
+            return dt.getDay() == 6 || dt.getDay() == 0;
+        }
+
         $('#datepick').on("input", function() {
             let date = $('#datepick').val();
-
             console.log(today);
-            console.log(date);
+            console.log(isWeekend(date));
+
+            if (isWeekend(date) == true) {
+                console.log("tampilkan jadwal weekend");
+                $.ajax({
+                    type:"POST",
+                    url: "{{ route('show-sch') }}",
+                    data: {
+                        day: "weekend",
+                    },
+                    success: (res) => {
+                        const cD = document.querySelector('#chooseDate');
+                        const target = document.querySelector('.show-time');
+                        cD.innerHTML = '';
+                        target.innerHTML = '';
+                        let output = '';
+                        res.forEach(item => {
+                            let formatedPrice = new Intl.NumberFormat('id-ID', {
+                                minimumFractionDigits: 0
+                            }).format(item.price);
+                            output = `
+                                <div class="col-md-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input sch schedule-${item.id}"
+                                            type="checkbox" id="schedule-${item.id}"
+                                            name="selectedSchedule[]" value="${item.id}">
+                                        <label class="form-check-label" for="schedule-${item.id}">
+                                            <div class="d-flex">
+                                                <div>${item.timeStart}.00</div>
+                                                <div>&nbsp;-&nbsp;</div>
+                                                <div>${item.timeEnd}.00</div>
+                                            </div>
+                                            <div class="text-center">
+                                                Rp ${formatedPrice}
+                                            </div>
+                                        </label>
+                                    </div>  
+                                </div>
+                            `;
+                            target.innerHTML += output
+                        });
+                        console.log(res);
+                    }
+                });
+            } else {
+                console.log("tampilkan jadwal weekday");
+                $.ajax({
+                    type:"POST",
+                    url: "{{ route('show-sch') }}",
+                    data: {
+                        day: "weekday",
+                    },
+                    success: (res) => {
+                        const cD = document.querySelector('#chooseDate');
+                        const target = document.querySelector('.show-time');
+                        cD.innerHTML = '';
+                        target.innerHTML = '';
+                        let output = '';
+                        res.forEach(item => {
+                            let formatedPrice = new Intl.NumberFormat('id-ID', {
+                                minimumFractionDigits: 0
+                            }).format(item.price);
+                            output = `
+                                <div class="col-md-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input sch schedule-${item.id}"
+                                            type="checkbox" id="schedule-${item.id}"
+                                            name="selectedSchedule[]" value="${item.id}">
+                                        <label class="form-check-label" for="schedule-${item.id}">
+                                            <div class="d-flex">
+                                                <div>${item.timeStart}.00</div>
+                                                <div>&nbsp;-&nbsp;</div>
+                                                <div>${item.timeEnd}.00</div>
+                                            </div>
+                                            <div class="text-center">
+                                                Rp ${formatedPrice}
+                                            </div>
+                                        </label>
+                                    </div>  
+                                </div>
+                            `;
+                            target.innerHTML += output
+                        });
+                        console.log(res);
+                    }
+                });
+            }
 
             if (date != today) {
                 console.log('hari tidak sama');
                 $('.sch').attr('disabled', false);
-            } else {
-                console.log('hari sama');
-
-                for (var i = 0; i < schedule.length; i++) {
-                    if (schedule[i].timeStart < hour && schedule[i].timeEnd <= hour) {
-                        let scid = 'schedule-' + schedule[i].id;
-                        $('.' + scid).attr('disabled', true);
-                    }
-                }
-
                 $.ajax({
                     type: "POST",
                     url: "{{ route('check-sch') }}",
@@ -208,9 +270,32 @@
                         let resLength = Object.keys(res).length;
                         console.log(resLength);
                         for (var i = 0; i < resLength; i++) {
-                            console.log(i);
-                            console.log('schedule-' + res[i].schedule_id);
-                            console.log('schedule-' + res[i].date);
+                            let schid = 'schedule-' + res[i].schedule_id;
+                            if (res[i].date = date && res[i].court_id == {{ $court[0]->court_id }}) {
+                                $('.' + schid).attr('disabled', true)
+                            }
+                        }
+                    }
+                });
+            } else {
+                console.log('hari sama');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('check-sch') }}",
+                    data: {
+                        date: date
+                    },
+                    success: (res) => {
+                        console.log(res);
+                        let resLength = Object.keys(res).length;
+                        console.log(resLength);
+                        for (var i = 0; i < schedule.length; i++) {
+                            if (schedule[i].timeStart < hour && schedule[i].timeEnd <= hour) {
+                                let scid = 'schedule-' + schedule[i].id;
+                                $('.' + scid).attr('disabled', true);
+                            }
+                        }
+                        for (var i = 0; i < resLength; i++) {
                             let schid = 'schedule-' + res[i].schedule_id;
                             if (res[i].date = date && res[i].court_id == {{ $court[0]->court_id }}) {
                                 $('.' + schid).attr('disabled', true)

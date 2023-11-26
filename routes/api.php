@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/check-sch', [TransactionController::class, 'checkSch'])->name('check-sch');
-// Route::post('/update-status', [TransactionController::class, 'updateStatus'])->name('update-status');
+Route::post('/show-sch', [TransactionController::class, 'showSchedule'])->name('show-sch');

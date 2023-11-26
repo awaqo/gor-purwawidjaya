@@ -104,6 +104,17 @@ class TransactionController extends Controller
         return response()->json($data);
     }
 
+    public function showSchedule(Request $request) {
+        if ($request->day == 'weekend')
+        {
+            $showSchedule = Schedule::get();
+        } else {
+            $showSchedule = Schedule::where('id', '>=', 11)->get();
+        }
+
+        return response()->json($showSchedule);
+    }
+
     // public function updateStatus(Request $request) {
     //     Booking::where('date', $request->bookingDate)->where('status_id', 2)
     //         ->update([
