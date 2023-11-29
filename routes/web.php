@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,5 +48,14 @@ Route::middleware('isCustomer')->group(function() {
         Route::get('/booking/{slug}', 'detailCourt');
 
         Route::post('/booking-lapangan', 'bookCourt')->name('bookCourt')->middleware('checkLogin');
+    });
+
+    Route::controller(HistoryController::class)->group(function() {
+        Route::get('/riwayat-pesanan', 'index')->name('riwayat-pesan');
+    });
+
+    Route::controller(PaymentController::class)->group(function() {
+        Route::get('/riwayat-pesanan/upload-pembayaran/{id}', 'index')->name('page.upload-pembayaran');
+        Route::post('/riwayat-pesanan/upload-pembayaran/{id}', 'store')->name('upload-pembayaran');
     });
 });

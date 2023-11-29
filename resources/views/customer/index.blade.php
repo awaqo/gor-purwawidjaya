@@ -3,48 +3,34 @@
 @section('title', 'Booking Lapangan Dimana Saja')
 
 @section('content')
-    <div class="my-5">
-        <h1>Halaman Customer</h1>
+    <h1>Halaman Customer</h1>
 
-        @guest
-            <div>Anda belum login</div>
-            <a class="d-flex" href="{{ route('login') }}">Login</a>
-            <a class="d-flex" href="{{ route('register') }}">Register</a>
-            <a class="d-flex" href="{{ route('logout') }}">Logout</a>
-        @endguest
+    @guest
+        <div>Anda belum login</div>
+    @endguest
 
-        @auth
-            <div>Anda sudah login</div>
-            <div>Halo, {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}</div>
-            <div>Halo, {{ ucwords(Auth::user()->name) }}</div>
-            <div>{{ Auth::user()->role }}</div>
-            <div>{{ auth()->user()->name }}</div>
-            <div>{{ auth()->user()->role }}</div>
+    @auth
+        <div>Anda sudah login</div>
+    @endauth
+    <a class="d-flex" href="{{ route('dashboard') }}">admin</a>
 
-            <a class="d-flex" href="{{ route('logout') }}">Logout</a>
-            <a class="d-flex" href="{{ route('login') }}">cek middleware login</a>
-            <a class="d-flex" href="{{ route('register') }}">cek middleware register</a>
+    <hr class="border border-primary border-3 opacity-75">
 
-        @endauth
-        <a class="d-flex" href="{{ route('dashboard') }}">admin</a>
-
-        <hr class="border border-primary border-3 opacity-75">
-
-        {{-- Lapangan --}}
-        <div class="h2">Daftar Lapangan</div>
-        <div class="row justify-content-center border">
-            @foreach ($courts as $item)
-                <a href="{{ url('booking/'.$item->court->slug) }}" class="col-12 col-md-4 link-underline link-underline-opacity-0">
-                    <div class="card">
-                        <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $item->court->name }}</h5>
-                            <p class="card-text">{{ $item->court->description }}</p>
-                        </div>
+    {{-- Lapangan --}}
+    <div class="h2">Daftar Lapangan</div>
+    <div class="row justify-content-center border">
+        @foreach ($courts as $item)
+            <a href="{{ url('booking/' . $item->court->slug) }}"
+                class="col-12 col-md-4 link-underline link-underline-opacity-0">
+                <div class="card">
+                    <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $item->court->name }}</h5>
+                        <p class="card-text">{{ $item->court->description }}</p>
                     </div>
-                </a>
-            @endforeach
-        </div>
+                </div>
+            </a>
+        @endforeach
     </div>
 
     {{-- pop up --}}

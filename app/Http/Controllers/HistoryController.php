@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Court;
-use App\Models\CourtImages;
-use App\Models\Schedule;
-use Carbon\Carbon;
+use App\Models\Payment;
+use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
-class HomeController extends Controller
+class HistoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $courts = CourtImages::select('id', 'court_id', 'image')
+        $transaction = Transaction::where('user_id', auth()->id())
+            ->with('booking')
             ->with('court')
-            // ->distinct()
-            ->groupBy('court_id')
-            ->get();
+            ->orderByDesc('created_at')
+            ->paginate(5);
+        $payment = Payment::whereIn('transaction_id', $transaction->pluck('id'))->get();
+        $user = User::where('id', auth()->id())->first();
 
-        return view('customer.index', compact('courts'));
+        return view('customer.riwayat.index', compact('transaction', 'payment', 'user'));
     }
 
     /**

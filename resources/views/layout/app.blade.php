@@ -10,7 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    @include('include.navbar')
+
+    <div class="container my-5">
         @yield('content')
     </div>
 

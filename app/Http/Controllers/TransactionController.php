@@ -68,6 +68,7 @@ class TransactionController extends Controller
 
         $user_id = Auth::user()->id;
         $court_id = $data['court_id'];
+        $unique_code = rand(100, 999);
         $price = 0;
 
         foreach ($selectedSchedule as $scheduleID) {
@@ -83,11 +84,14 @@ class TransactionController extends Controller
             ]);
         }
 
+        $total = ($price + $unique_code);
+
         Transaction::create([
             'user_id' => $user_id,
             'court_id' => $court_id,
             'booking_id' => $data['booked_id'],
-            'total' => $price,
+            'unique_payment_code' => $unique_code,
+            'total' => $total,
             'payment_metode' => $data['payment_metode'],
         ]);
 
