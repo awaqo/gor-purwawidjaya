@@ -20,12 +20,12 @@
     <div class="h2">Daftar Lapangan</div>
     <div class="row justify-content-center border">
         @foreach ($courts as $item)
-            <a href="{{ url('booking/' . $item->court->slug) }}"
+            <a href="{{ url('booking/' . $item->court->id . '/' . $item->court->slug) }}"
                 class="col-12 col-md-4 link-underline link-underline-opacity-0">
                 <div class="card">
-                    <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->name }}">
+                    <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->court_name }}">
                     <div class="card-body">
-                        <h5 class="card-title">{{ $item->court->name }}</h5>
+                        <h5 class="card-title">{{ $item->court->court_name }}</h5>
                         <p class="card-text">{{ $item->court->description }}</p>
                     </div>
                 </div>
@@ -33,6 +33,34 @@
         @endforeach
     </div>
 
+    {{-- List orang booking --}}
+    <div class="mt-5 table-responsive">
+        <div class="h2">List Booking</div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
+                    <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
+                    <th scope="col" class="bg-secondary text-light text-center">Nama Pembooking</th>
+                    <th scope="col" class="bg-secondary text-light text-center">Jam Main</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($listBooking as $data)
+                    <tr class="text-center">
+                        <td>{{ $data->court_name }}</td>
+                        <td><span class="badge bg-success">{{ date('d-m-Y', strtotime($data->date)) }}</span></td>
+                        <td>{{ $data->booking_name }}</td>
+                        <td><span class="badge bg-primary">{{ $data->timeStart }}.00 - {{ $data->timeEnd }}.00</span></td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4">Belum ada transaksi</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
     {{-- pop up --}}
 
     @if (Session::has('message'))

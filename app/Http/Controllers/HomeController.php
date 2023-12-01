@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Court;
 use App\Models\CourtImages;
 use App\Models\Schedule;
+use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -20,8 +22,17 @@ class HomeController extends Controller
             // ->distinct()
             ->groupBy('court_id')
             ->get();
+        
+        $listBooking = DB::table('transactions')
+            ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
+            ->join('schedules', 'schedules.id', '=', 'bookings.schedule_id')
+            ->join('courts', 'courts.id', '=', 'transactions.court_id')
+            ->join('users', 'users.id', '=', 'transactions.user_id')
+            ->select('transactions.*', 'bookings.*', 'schedules.*', 'courts.*', 'users.*')
+            ->orderBy('transactions.created_at')
+            ->get();
 
-        return view('customer.index', compact('courts'));
+        return view('customer.index', compact('courts', 'listBooking'));
     }
 
     /**

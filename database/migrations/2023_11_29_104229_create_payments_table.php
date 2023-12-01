@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
-            $table->string('image');
+            $table->string('payment_image');
             $table->integer('pay_amount')->unsigned();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('courts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('court_name');
             $table->string('slug');
             $table->text('description');
             // $table->enum('availability', ['available', 'booked'])->default('available');

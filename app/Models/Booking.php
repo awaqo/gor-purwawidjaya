@@ -11,7 +11,7 @@ class Booking extends Model
 
     protected $guarded = [];
 
-    public function booking()
+    public function schedule()
     {
         return $this->belongsToMany(Schedule::class, 'schedule_id', 'id');
     }

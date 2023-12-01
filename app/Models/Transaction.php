@@ -31,6 +31,11 @@ class Transaction extends Model
         });
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function court()
     {
         return $this->belongsTo(Court::class, 'court_id', 'id');

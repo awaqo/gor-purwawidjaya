@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\CourtImages;
 use App\Models\Schedule;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
-    public function detailCourt($slug)
+    public function detailCourt($id, $slug)
     {
         $weekMap = [
             0 => 'Min',
@@ -29,9 +30,6 @@ class TransactionController extends Controller
         $startDate = Carbon::now()->format('Y-m-d');
         $endDate = Carbon::now()->addWeek(2)->format('Y-m-d');
 
-        // $schedules = Schedule::get();
-        // $b = $schedules->toArray();
-        // dd($b[0]);
         if ($weekday == 'Min' || $weekday == 'Sab')
         {
             $schedules = Schedule::get();
@@ -39,13 +37,11 @@ class TransactionController extends Controller
             $schedules = Schedule::where('id', '>=', 11)->get();
         }
 
-        $court = DB::table('court_images')
-            ->join('courts', 'court_images.court_id', '=', 'courts.id')
-            ->select('court_images.image', 'court_images.court_id', 'courts.*')
-            ->where('courts.slug', '=', $slug)
-            ->get();
-        
         $date = Carbon::now()->isoFormat('dddd');
+        
+        $court = CourtImages::with('court')
+            ->where('court_id', $id)
+            ->get();
         
         $booked_schedule = Booking::get();
         $latest = Booking::latest('id')->first();
@@ -79,7 +75,7 @@ class TransactionController extends Controller
             Booking::create([
                 'booking_id' => $data['booked_id'],
                 'schedule_id' => $scheduleID,
-                'name' => $data['name'],
+                'booking_name' => $data['name'],
                 'date' => $data['datepick'],
             ]);
         }

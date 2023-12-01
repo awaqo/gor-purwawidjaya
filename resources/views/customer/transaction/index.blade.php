@@ -5,27 +5,15 @@
 @section('content')
     <div class="col-md-10 mx-auto">
         <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            </div>
             <div class="carousel-inner rounded">
-                <div class="carousel-item active" style="height: 80vh">
-                    <img src="{{ asset(Storage::url($court[0]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
-                        alt="a">
-                </div>
-                <div class="carousel-item" style="height: 80vh">
-                    <img src="{{ asset(Storage::url($court[1]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
-                        alt="s">
-                </div>
-                <div class="carousel-item" style="height: 80vh">
-                    <img src="{{ asset(Storage::url($court[2]->image)) }}" class="d-block w-100 h-100 object-fit-fill"
-                        alt="d">
-                </div>
+                @forelse ($court as $key => $item)
+                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 80vh">
+                        <img src="{{ asset(Storage::url($item->image)) }}" class="d-block w-100 h-100 object-fit-fill"
+                            alt="{{ $item->court->name }}">
+                    </div>
+                @empty
+                    
+                @endforelse
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
@@ -41,22 +29,7 @@
     </div>
     <div class="col-md-10 mx-auto">
         <div class="timeStart"></div>
-        <h1 class="mt-3">{{ $court[0]->name }}</h1>
-
-        {{-- Jadwal yang tersedia --}}
-
-        {{-- 
-            - middleware check login ketika tekan tombol booking lapangan
-            ==> TODO <== 
-            - cek ulang sistem booking 
-                - price (done)
-                - disabled jadwal yang sudah terbooking sesuai hari(done)
-            - benerin show jadwal booked (done)
-            - update ulang availability setelah ganti hari (done)
-            - ubah jadwal yang tersedia menyesuaikan weekend / weekday setelah user memilih hari melalui datepicker (done)
-            
-            --}}
-
+        <h1 class="mt-3">{{ $court[0]->court->name }}</h1>
         <form action="{{ url('/booking-lapangan') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if ($booked_schedule->count() < 1)
@@ -71,9 +44,6 @@
             @endif
             <input type="hidden" name="court_id" value="{{ $court[0]->court_id }}">
             <input type="hidden" name="booked_id" value="{{ $booked_id }}">
-            {{-- @foreach ($checkBooked as $item)
-                <input type="hidden" id="bookDate" value="{{ $item->date }}">
-            @endforeach --}}
 
             <div class="col mb-3">
                 <label for="name" class="form-label">Nama</label>
@@ -144,8 +114,8 @@
 
 @push('scripts')
     <script>
-        var schedule = {!! json_encode($schedules->toArray()) !!};
-
+        const schedule = {!! json_encode($schedules->toArray()) !!};
+        
         let today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1;

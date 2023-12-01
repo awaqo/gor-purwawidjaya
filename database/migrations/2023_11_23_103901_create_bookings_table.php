@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('booking_id');
             $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnUpdate();
-            $table->string('name');
+            $table->string('booking_name');
             $table->date('date');
             $table->timestamps();
         });

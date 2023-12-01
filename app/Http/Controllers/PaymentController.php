@@ -36,7 +36,7 @@ class PaymentController extends Controller
 
         Payment::create([
             'transaction_id' => $id,
-            'image' => $image,
+            'payment_image' => $image,
             'pay_amount' => $data['pay_amount']
         ]);
 
