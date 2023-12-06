@@ -77,13 +77,15 @@
 
         function checkPass() {
             if (pass1.value.length > 7) {
-                pass1.classList.remove("is-invalid")
-                pass1.classList.add("is-valid")
+                pass1.classList.remove("is-invalid");
+                pass1.classList.add("is-valid");
                 message1.style.display = "none";
             } else {
-                pass1.classList.add("is-invalid")
-                message1.classList.add("invalid-feedback")
-                message1.innerHTML = "Password minimal 8 karakter"
+                pass1.classList.remove("is-valid");
+                pass1.classList.add("is-invalid");
+                message1.classList.add("invalid-feedback");
+                message1.style.display = "inline";
+                message1.innerHTML = "Password minimal 8 karakter";
                 return;
             }
         }

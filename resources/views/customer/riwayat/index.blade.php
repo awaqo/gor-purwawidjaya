@@ -22,8 +22,7 @@
                         @if ($payment->where('transactions_id', $data->id)->first() !== null)
                             <div>Menunggu Konfirmasi Pengelola GOR</div>
                         @else
-                            <div>Belum
-                                bayar</div>
+                            <div class="badge bg-danger">Belum bayar</div>
                         @endif
                     @elseif ($data->payment_status == 'paid')
                         @if ($data->order_status == 'need_confirm')
@@ -48,10 +47,12 @@
     
                 <div class="align-self-end">
                     @if ($payment->where('transaction_id', $data->id)->first() == null && $data->order_status !== 'cancelled')
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Bayar Sekarang
-                        </button>
+                        <div class="mb-1">
+                            <!-- Button trigger modal -->
+                            <a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Bayar Sekarang
+                            </a>
+                        </div>
     
                         <!-- Modal -->
                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -83,7 +84,7 @@
                                 Pembayaran</a>
                         </div>
                     @else
-                        <div class="btn btn-success px-5">Booking berhasil</div>
+                        <div class="bg-success text-white rounded-2 py-2 px-5">Booking berhasil</div>
                     @endif
                 </div>
             </div>

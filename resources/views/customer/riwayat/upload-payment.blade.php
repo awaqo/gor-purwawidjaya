@@ -17,6 +17,7 @@
         <div class="col mb-3">
             <label for="pay_amount" class="form-label">Nominal Transfer</label>
             <input type="number" class="form-control" name="pay_amount" id="pay_amount" required>
+            <div id="pay_message"></div>
         </div>
 
         <div class="col mb-3">
@@ -39,6 +40,31 @@
 
 @push('scripts')
     <script>
+        var data = {!! json_encode($data) !!};
+        const amount = document.querySelector("#pay_amount");
+        const message = document.querySelector("#pay_message");
+
+        $(document).ready(() => {
+            console.log(data[0].total);
+        });
+        
+        $('#pay_amount').on("change", function() {
+            if (amount.value != data[0].total) {
+                console.log("belum sama");
+                amount.classList.remove("is-valid");
+                amount.classList.add("is-invalid");
+                message.classList.add("invalid-feedback");
+                message.innerHTML = "Pastikan input sesuai grand total";
+                message.style.display = "inline";
+            } else {
+                amount.classList.remove("is-invalid");
+                amount.classList.add("is-valid");
+                message.style.display = "none";
+                console.log("sama");
+            }
+            console.log(amount.value);
+        });
+
         function previewImage() {
             var preview = document.getElementById('image-preview');
             var file = document.querySelector('input[type=file]').files[0];
