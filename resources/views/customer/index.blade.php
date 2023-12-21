@@ -5,14 +5,12 @@
 @section('content')
     <h1>Halaman Customer</h1>
 
-    @guest
-        <div>Anda belum login</div>
-    @endguest
-
-    @auth
-        <div>Anda sudah login</div>
-    @endauth
-    <a class="d-flex" href="{{ route('dashboard') }}">admin</a>
+    @if (Auth::check())
+        <div id="uid" class="d-none">{{ Auth::user()->id }}</div>
+    @else
+        <div id="uid" class="d-none">null</div>
+    @endif
+    <a class="d-flex" href="{{ route('admin.dashboard') }}">admin</a>
 
     <hr class="border border-primary border-3 opacity-75">
 
@@ -40,24 +38,40 @@
             <thead>
                 <tr>
                     <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
-                    <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
+                    <th scope="col" class="bg-secondary text-light text-center">Tanggal Main</th>
                     <th scope="col" class="bg-secondary text-light text-center">Nama Pembooking</th>
                     <th scope="col" class="bg-secondary text-light text-center">Jam Main</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($listBooking as $data)
-                    <tr class="text-center">
-                        <td>{{ $data->court_name }}</td>
-                        <td><span class="badge bg-success">{{ date('d-m-Y', strtotime($data->date)) }}</span></td>
-                        <td>{{ $data->booking_name }}</td>
-                        <td><span class="badge bg-primary">{{ $data->timeStart }}.00 - {{ $data->timeEnd }}.00</span></td>
-                    </tr>
-                @empty
+                @if ($lastBook == null)
                     <tr>
-                        <td colspan="4">Belum ada transaksi</td>
+                        <td colspan="4" class="text-center">Belum ada transaksi</td>
                     </tr>
-                @endforelse
+                @else
+                    @forelse ($Transaction as $data)
+                        {{--
+                            - sementara menampilkan transaksi yang belum dibayar
+                            - TODO: ubah kondisi payment_status menjadi paid
+                        --}}
+                        @if ($data->payment_status == 'unpaid' && $data->order_status !== 'cancelled' && $data->order_status !== 'completed')
+                            <tr class="text-center">
+                                <td>{{ $data->court_name }}</td>
+                                <td><span class="badge bg-success">{{ date('d-m-Y', strtotime($data->date)) }}</span></td>
+                                <td>{{ $data->booking_name }}</td>
+                                <td>
+                                    @foreach ($BkTime->where('booking_id', $data->booking_id) as $item)
+                                        <span class="badge bg-primary">{{ $item->play_time }}</span>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endif
+                    @empty
+                        <tr>
+                            <td colspan="4" class="text-center">Belum ada transaksi</td>
+                        </tr>
+                    @endforelse
+                @endif
             </tbody>
         </table>
     </div>
@@ -115,6 +129,36 @@
                 timerProgressBar: true,
             })
         </script>
+    @elseif (Session::has('checkLogin'))
+        <script>
+            Swal.fire({
+                icon: 'warning',
+                text: "{{ Session::get('checkLogin') }}",
+            })
+        </script>
     @endif
 
 @endsection
+
+@push('scripts')
+    <script>
+        const booking = {!! json_encode($Transaction->toArray()) !!};
+        
+        $(document).ready(() => {
+            cancelBooking();
+        });
+
+        function cancelBooking() {
+            let firstElements = [];
+            let noDuplicates = [];
+            booking.forEach(object => {
+                if (!firstElements.includes(object.booking_name) && object.payment_status != 'paid') {
+                    firstElements.push(object.booking_name);
+                    noDuplicates.push(object);
+                }
+            });
+            console.log(firstElements);
+            console.log(noDuplicates);
+        };
+    </script>
+@endpush

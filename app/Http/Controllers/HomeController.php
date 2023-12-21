@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Court;
 use App\Models\CourtImages;
 use App\Models\Schedule;
@@ -17,22 +18,32 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $date = Carbon::now()->isoFormat('Y-M-D');
+        $lastBook = Booking::latest()->first();
         $courts = CourtImages::select('id', 'court_id', 'image')
             ->with('court')
             // ->distinct()
             ->groupBy('court_id')
             ->get();
         
-        $listBooking = DB::table('transactions')
+        $Transaction = DB::table('transactions')
             ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
-            ->join('schedules', 'schedules.id', '=', 'bookings.schedule_id')
             ->join('courts', 'courts.id', '=', 'transactions.court_id')
             ->join('users', 'users.id', '=', 'transactions.user_id')
-            ->select('transactions.*', 'bookings.*', 'schedules.*', 'courts.*', 'users.*')
+            ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.*', 'users.*')
             ->orderBy('transactions.created_at')
+            ->distinct()
             ->get();
+        
+        // $Transaction = Transaction::with(['user', 'court', 'booking'])
+        //     ->orderBy('created_at')
+        //     ->get();
+        
+        $BkName = Booking::get();
 
-        return view('customer.index', compact('courts', 'listBooking'));
+        $BkTime = Booking::get();
+
+        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'BkName'));
     }
 
     /**

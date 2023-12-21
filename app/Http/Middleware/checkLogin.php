@@ -17,7 +17,7 @@ class checkLogin
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return back()->with('message', 'Anda perlu login untuk melakukan booking lapangan');
+            return back()->with('checkLogin', 'Anda perlu login terlebih dahulu');
         }
         return $next($request);
     }

@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><span class="text-primary">Admin</span></li>
                         <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
@@ -101,7 +101,6 @@
                                 <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
                                 <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
                                 <th scope="col" class="bg-secondary text-light text-center">Status Pembayaran</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -115,14 +114,9 @@
                                             <span class="badge badge-warning">Belum Bayar</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <a href="">
-                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                        </a>
-                                    </td>
                                 </tr>
                             @empty
-                                <tr>
+                                <tr class="text-center">
                                     <td colspan="5">Belum ada transaksi</td>
                                 </tr>
                             @endforelse
@@ -168,8 +162,8 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr>
-                                    <td colspan="4">Seluruh transaksi sudah dikonfirmasi</td>
+                                <tr class="text-center">
+                                    <td colspan="6">Tidak ada transaksi yang perlu dikonfirmasi</td>
                                 </tr>
                             @endforelse
                         </tbody>

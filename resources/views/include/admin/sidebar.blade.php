@@ -16,35 +16,28 @@
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ url('admin/dashboard') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-gauge-high"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                    <a href="{{ route('admin.transaction') }}" class="nav-link {{ request()->is('admin/transaksi') ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
                         <p>
-                            Kelola Booking
-                            <i class="fas fa-angle-left right"></i>
+                            Transaksi
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Booking Website</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Booking di Tempat</p>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.manual-booking') }}" class="nav-link {{ request()->is('admin/manual-booking') ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-calendar-check"></i>
+                        <p>
+                            Booking Manual
+                        </p>
+                    </a>
                 </li>
             </ul>
         </nav>

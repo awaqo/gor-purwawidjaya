@@ -1,34 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Booking;
-use App\Models\Payment;
-use App\Models\Transaction;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class HistoryController extends Controller
+class ManualBookingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transaction = DB::table('transactions')
-            ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
-            ->join('courts', 'courts.id', '=', 'transactions.court_id')
-            ->where('transactions.user_id', auth()->id())
-            ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.court_name')
-            ->orderBy('transactions.created_at')
-            ->distinct()
-            ->get();
-        $payment = Payment::whereIn('transaction_id', $transaction->pluck('id'))->get();
-        // dd($transaction);
-
-        return view('customer.riwayat.index', compact('transaction', 'payment'));
+        return view('admin.manual-booking.index');
     }
 
     /**

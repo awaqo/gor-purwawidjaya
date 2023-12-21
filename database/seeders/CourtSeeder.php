@@ -18,24 +18,24 @@ class CourtSeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Lapangan 1',
+                'court_name' => 'Lapangan 1',
                 'description' => 'Deskripsi lapangan 1'
             ],
             [
-                'name' => 'Lapangan 2',
+                'court_name' => 'Lapangan 2',
                 'description' => 'Deskripsi lapangan 2'
             ],
             [
-                'name' => 'Lapangan 3',
+                'court_name' => 'Lapangan 3',
                 'description' => 'Deskripsi lapangan 3'
             ],
         ];
 
         foreach ($data as $item) {
-            $slug = Str::slug($item['name'], '-');
+            $slug = Str::slug($item['court_name'], '-');
 
             Court::insert([
-                'name' => $item['name'],
+                'court_name' => $item['court_name'],
                 'slug' => $slug,
                 'description' => $item['description'],
                 'created_at' => Carbon::now(),

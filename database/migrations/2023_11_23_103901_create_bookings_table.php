@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('booking_id');
-            $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnUpdate();
+            $table->string('schedule_id');
+            $table->string('play_time');
+            // $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnUpdate();
             $table->string('booking_name');
             $table->date('date');
             $table->timestamps();

@@ -60,6 +60,10 @@ class TransactionController extends Controller
         ]);
 
         $data = $request->all();
+        $validated = $request->validate([
+            'payment_metode' => 'required',
+        ]);
+
         $selectedSchedule = $request->input('selectedSchedule', []);
 
         $user_id = Auth::user()->id;
@@ -69,15 +73,19 @@ class TransactionController extends Controller
 
         foreach ($selectedSchedule as $scheduleID) {
             $selectSchedule = Schedule::where('id', $scheduleID)->first();
-
+            $pt = $selectSchedule->timeStart.".00-".$selectSchedule->timeEnd.".00";
             $price += $selectSchedule->price;
             // dd($price);
             Booking::create([
                 'booking_id' => $data['booked_id'],
                 'schedule_id' => $scheduleID,
+                'play_time' => $pt,
+                // coba input array di kolom schedule id
+                // bikin kolom baru "jam_main"
                 'booking_name' => $data['name'],
                 'date' => $data['datepick'],
             ]);
+            // dd($pt);
         }
 
         $total = ($price + $unique_code);
@@ -88,7 +96,7 @@ class TransactionController extends Controller
             'booking_id' => $data['booked_id'],
             'unique_payment_code' => $unique_code,
             'total' => $total,
-            'payment_metode' => $data['payment_metode'],
+            'payment_metode' => $validated['payment_metode'],
         ]);
 
         return redirect('/')->with('successBooking', 'Terima kasih telah melakukan booking lapangan di GOR Purwawidjaya');

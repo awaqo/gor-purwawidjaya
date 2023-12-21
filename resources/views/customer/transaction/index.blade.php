@@ -96,12 +96,12 @@
         </form>
     </div>
 
-    @if (Session::has('message'))
+    @if (Session::has('checkLogin'))
         <script>
             Swal.fire({
                 icon: 'warning',
                 title: 'Harap Login',
-                text: "{{ Session::get('message') }}",
+                text: "{{ Session::get('checkLogin') }}",
                 showCancelButton: true,
                 showConfirmButton: false,
                 footer: '<a href="{{ url('/login') }}">Login sekarang</a>'

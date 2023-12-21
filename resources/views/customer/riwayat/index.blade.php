@@ -9,10 +9,10 @@
 
         <div class="d-flex justify-content-between">
             <div>
-                <div>Transaksi : {{ $data->created_at->isoFormat('D-MMM-Y - H:m') }} WIB</div>
+                <div>Transaksi : {{ date('d-M-Y - H:m', strtotime($data->created_at)) }} WIB</div>
                 <div>ID Pesanan : <span class="badge bg-info">{{ substr($data->id, -12) }}</span></div>
-                <div>Lapangan : {{ $data->court->name }}</div>
-                <div>Nama pembooking : {{ $data->booking->name }}</div>
+                <div>Lapangan : {{ $data->court_name }}</div>
+                <div>Nama pembooking : {{ $data->booking_name }}</div>
                 <div>Total : <span class="fw-bold">Rp {{ number_format($data->total, 0, ',', '.') }}</span></div>
             </div>
     

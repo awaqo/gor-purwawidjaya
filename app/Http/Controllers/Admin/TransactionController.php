@@ -1,34 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Booking;
-use App\Models\Payment;
+use App\Http\Controllers\Controller;
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class HistoryController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transaction = DB::table('transactions')
-            ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
-            ->join('courts', 'courts.id', '=', 'transactions.court_id')
-            ->where('transactions.user_id', auth()->id())
-            ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.court_name')
-            ->orderBy('transactions.created_at')
-            ->distinct()
-            ->get();
-        $payment = Payment::whereIn('transaction_id', $transaction->pluck('id'))->get();
-        // dd($transaction);
-
-        return view('customer.riwayat.index', compact('transaction', 'payment'));
+        $transaction = Transaction::with(['user', 'court'])->get();
+        return view('admin.transaction.index', compact('transaction'));
     }
 
     /**
@@ -52,7 +39,16 @@ class HistoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = DB::table('transactions')
+        ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
+        ->join('schedules', 'schedules.id', '=', 'bookings.schedule_id')
+        ->join('courts', 'courts.id', '=', 'transactions.court_id')
+        ->join('users', 'users.id', '=', 'transactions.user_id')
+        ->select('transactions.*', 'transactions.id as transaction_id', 'bookings.*', 'bookings.id as bk_id', 'schedules.*', 'courts.*', 'users.*')
+        ->where('transactions.id', $id)
+        ->get();
+
+        return view('admin.transaction.detail', compact('data'));
     }
 
     /**
