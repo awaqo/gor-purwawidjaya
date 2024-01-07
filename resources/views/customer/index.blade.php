@@ -14,25 +14,8 @@
 
     <hr class="border border-primary border-3 opacity-75">
 
-    {{-- Lapangan --}}
-    <div class="h2">Daftar Lapangan</div>
-    <div class="row justify-content-center border">
-        @foreach ($courts as $item)
-            <a href="{{ url('booking/' . $item->court->id . '/' . $item->court->slug) }}"
-                class="col-12 col-md-4 link-underline link-underline-opacity-0">
-                <div class="card">
-                    <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->court_name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $item->court->court_name }}</h5>
-                        <p class="card-text">{{ $item->court->description }}</p>
-                    </div>
-                </div>
-            </a>
-        @endforeach
-    </div>
-
     {{-- List orang booking --}}
-    <div class="mt-5 table-responsive">
+    <div class="mt-3 table-responsive">
         <div class="h2">List Booking</div>
         <table class="table table-bordered">
             <thead>
@@ -50,14 +33,10 @@
                     </tr>
                 @else
                     @forelse ($Transaction as $data)
-                        {{--
-                            - sementara menampilkan transaksi yang belum dibayar
-                            - TODO: ubah kondisi payment_status menjadi paid
-                        --}}
-                        @if ($data->payment_status == 'unpaid' && $data->order_status !== 'cancelled' && $data->order_status !== 'completed')
+                        @if ($data->payment_status == 'paid' && $data->order_status !== 'cancelled' && $data->order_status !== 'completed')
                             <tr class="text-center">
-                                <td>{{ $data->court_name }}</td>
-                                <td><span class="badge bg-success">{{ date('d-m-Y', strtotime($data->date)) }}</span></td>
+                                <td id="{{ $data->booking_id }}" class="bk_id">{{ $data->court_name }}</td>
+                                <td><span class="badge bg-success booking_date">{{ date('Y-m-d', strtotime($data->date)) }}</span></td>
                                 <td>{{ $data->booking_name }}</td>
                                 <td>
                                     @foreach ($BkTime->where('booking_id', $data->booking_id) as $item)
@@ -75,6 +54,24 @@
             </tbody>
         </table>
     </div>
+
+    {{-- Lapangan --}}
+    <div class="h2 mt-3">Daftar Lapangan</div>
+    <div class="row justify-content-center">
+        @foreach ($courts as $item)
+            <a href="{{ url('booking/' . $item->court->id . '/' . $item->court->slug) }}"
+                class="col-12 col-md-4 link-underline link-underline-opacity-0">
+                <div class="card">
+                    <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->court_name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $item->court->court_name }}</h5>
+                        <p class="card-text">{{ $item->court->description }}</p>
+                    </div>
+                </div>
+            </a>
+        @endforeach
+    </div>
+
     {{-- pop up --}}
 
     @if (Session::has('message'))
@@ -142,23 +139,71 @@
 
 @push('scripts')
     <script>
-        const booking = {!! json_encode($Transaction->toArray()) !!};
+        const trx = {!! json_encode($Transaction->toArray()) !!};
+        const booking = {!! json_encode($BkTime->toArray()) !!};
+        const timer = {!! json_encode($Timer->toArray()) !!};
+        var bookDate = document.querySelector(".booking_date").textContent;
+        var bkId = document.querySelector(".bk_id");
+        var bookingId = bkId.getAttribute('id');
+
+        let today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var currentHour = today.getHours();
+
+        // tambah 0 jika hari < 10
+        if (dd < 10) {
+            dd = '0' + dd;
+        } 
+        // tambah 0 jika bulan < 10
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
         
         $(document).ready(() => {
-            cancelBooking();
+            updateBookingList();
         });
 
-        function cancelBooking() {
-            let firstElements = [];
-            let noDuplicates = [];
-            booking.forEach(object => {
-                if (!firstElements.includes(object.booking_name) && object.payment_status != 'paid') {
-                    firstElements.push(object.booking_name);
-                    noDuplicates.push(object);
+        function updateBookingList() {
+            for (a = 0; a < trx.length; a++) {
+                var bookId = trx[a].booking_id;
+                if (trx[a].payment_status == 'paid' && trx[a].order_status !== 'completed' && trx[a].order_status !== 'cancelled') {
+                    var bid = trx[a].booking_id;
+                    console.log(bid);
+                    for (b = 0; b < booking.length; b++) {
+                        var bD = booking[b].date;
+                        if (today == bD && booking[b].booking_id == bid) {
+                            console.log(bD);
+                            console.log(booking[b].schedule_id);
+                            var scheduleId = booking[b].schedule_id;
+                        }
+                    }
                 }
-            });
-            console.log(firstElements);
-            console.log(noDuplicates);
-        };
+            }
+
+            for (c = 0; c < timer.length; c++) {
+                if (timer[c].id == scheduleId) {
+                    var timeEnd = timer[c].timeEnd;
+                }
+            }
+
+            if (currentHour >= timeEnd) {
+                console.log('waktu booking selesai');
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('update-status') }}",
+                    data: {
+                        bookingid: bookId,
+                    },
+                    success: (res) => {
+                    },
+                });
+            } else {
+                console.log('booking belum selesai');
+            }
+        }
     </script>
 @endpush

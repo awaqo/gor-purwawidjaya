@@ -75,17 +75,14 @@ class TransactionController extends Controller
             $selectSchedule = Schedule::where('id', $scheduleID)->first();
             $pt = $selectSchedule->timeStart.".00-".$selectSchedule->timeEnd.".00";
             $price += $selectSchedule->price;
-            // dd($price);
+            
             Booking::create([
                 'booking_id' => $data['booked_id'],
                 'schedule_id' => $scheduleID,
                 'play_time' => $pt,
-                // coba input array di kolom schedule id
-                // bikin kolom baru "jam_main"
                 'booking_name' => $data['name'],
                 'date' => $data['datepick'],
             ]);
-            // dd($pt);
         }
 
         $total = ($price + $unique_code);
@@ -108,7 +105,6 @@ class TransactionController extends Controller
             ->select('transactions.court_id', 'bookings.*')
             ->where('bookings.date', '=', $request->date)
             ->get();
-        // $data = Booking::where('date', $request->date)->get();
         return response()->json($data);
     }
 

@@ -40,6 +40,9 @@ Route::middleware('isAdmin')->group(function() {
 
         Route::controller(ManualBookingController::class)->group(function() {
             Route::get('/manual-booking', 'index')->name('admin.manual-booking');
+            Route::get('/manual-booking/{id}/{slug}', 'detailCourt');
+
+            Route::post('/booking-manual', 'bookCourt')->name('admin.bookCourt')->middleware('checkLogin');
         });
 
         Route::controller(AdminTransactionController::class)->group(function() {

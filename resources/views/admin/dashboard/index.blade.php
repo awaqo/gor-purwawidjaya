@@ -37,8 +37,11 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        {{-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> --}}
-                        <div class="small-box-footer py-3"></div>
+                        <div class="small-box-footer py-1">
+                            <a href="#" class="text-white">
+                                <strong class="badge fs-6 rounded-pill bg-danger">{{ $confirmTrans }}</strong> Transaksi perlu konfirmasi
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- ./col -->

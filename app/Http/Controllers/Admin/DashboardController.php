@@ -14,7 +14,10 @@ class DashboardController extends Controller
     {
         $user = User::where('role', 'User')->get();
         $court = Court::get();
-        $transaction = Transaction::where('order_status', '!=', 'cancelled');
+        $transaction = Transaction::get();
+        $confirmTrans = Transaction::where('payment_status', 'paid')
+            ->where('order_status', 'need_confirm')
+            ->count();
 
         $inTransaction = Transaction::with(['user', 'court'])
             ->where('order_status', 'awaiting_payment')
@@ -26,6 +29,6 @@ class DashboardController extends Controller
         ->orderBy('created_at')
         ->get();
 
-        return view('admin.dashboard.index', compact('user', 'court', 'transaction', 'inTransaction', 'confirmTransaction'));
+        return view('admin.dashboard.index', compact('user', 'court', 'transaction', 'inTransaction', 'confirmTransaction', 'confirmTrans'));
     }
 }

@@ -30,67 +30,19 @@ class HomeController extends Controller
             ->join('bookings', 'transactions.booking_id', '=', 'bookings.booking_id')
             ->join('courts', 'courts.id', '=', 'transactions.court_id')
             ->join('users', 'users.id', '=', 'transactions.user_id')
-            ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.*', 'users.*')
+            ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.court_name', 'users.name')
             ->orderBy('transactions.created_at')
             ->distinct()
             ->get();
-        
-        // $Transaction = Transaction::with(['user', 'court', 'booking'])
-        //     ->orderBy('created_at')
-        //     ->get();
-        
-        $BkName = Booking::get();
 
         $BkTime = Booking::get();
+        $Timer = Schedule::get();
 
-        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'BkName'));
+        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'Timer'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function updateStatus(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        Transaction::where('booking_id', $request->bookingid)->update(['order_status' => 'completed']);
     }
 }

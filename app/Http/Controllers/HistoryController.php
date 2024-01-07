@@ -22,7 +22,7 @@ class HistoryController extends Controller
             ->join('courts', 'courts.id', '=', 'transactions.court_id')
             ->where('transactions.user_id', auth()->id())
             ->select('transactions.*', 'bookings.booking_name', 'bookings.date', 'courts.court_name')
-            ->orderBy('transactions.created_at')
+            ->orderByDesc('transactions.created_at')
             ->distinct()
             ->get();
         $payment = Payment::whereIn('transaction_id', $transaction->pluck('id'))->get();

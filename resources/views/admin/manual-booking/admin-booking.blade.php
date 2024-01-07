@@ -1,100 +1,107 @@
-@extends('layout.app')
+@extends('layout.app-admin')
 
-@section('title', 'Booking Lapangan Dimana Saja')
+@section('title', 'Booking Manual')
 
 @section('content')
-    <div class="col-md-10 mx-auto">
-        <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-inner rounded">
-                @forelse ($court as $key => $item)
-                    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="height: 80vh">
-                        <img src="{{ asset(Storage::url($item->image)) }}" class="d-block w-100 h-100 object-fit-fill"
-                            alt="{{ $item->court->name }}">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <div class="d-flex gap-2 align-items-center">
+                        <a href="{{ route('admin.manual-booking') }}" class="btn btn-outline-primary px-3">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                        <h1 class="fw-semibold">{{ $court[0]->court->court_name }}</h1>
                     </div>
-                @empty
-                    
-                @endforelse
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><span class="text-primary">Admin</span></li>
+                        <li class="breadcrumb-item">Manual Booking</li>
+                        <li class="breadcrumb-item active">Pilih Jadwal Main</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </div>
-    <div class="col-md-10 mx-auto">
-        <div class="timeStart"></div>
-        <h1 class="mt-3">{{ $court[0]->court->name }}</h1>
-        <form action="{{ url('/booking-lapangan') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @if ($booked_schedule->count() < 1)
-                @php
-                    $booked_id = 1;
-                @endphp
-            @else
-                @php
-                    $booked_id = $latest->booking_id;
-                    $booked_id += 1;
-                @endphp
-            @endif
-            <input type="hidden" name="court_id" value="{{ $court[0]->court_id }}">
-            <input type="hidden" name="booked_id" value="{{ $booked_id }}">
+    <!-- /.content-header -->
 
-            <div class="col mb-3">
-                <label for="name" class="form-label">Nama</label>
-                <input type="text" class="form-control" name="name" id="name" required>
-            </div>
-
-            <div class="col mb-3">
-                <label for="datepick" class="form-label">Pilih hari</label>
-                <input id="datepick" name="datepick" type="date" min="{{ $startDate }}" max="{{ $endDate }}"
-                    class="form-control" required>
-            </div>
-
-            <div class="col mb-3">
-                <label for="collapseThree" class="form-label">Jadwal Tersedia</label>
-                <div class="accordion" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingThree">
-                            <a class="form-control text-left collapsed text-decoration-none" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-                                aria-controls="collapseThree">
-                                Pilih Jadwal
-                            </a>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                            data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <div id="chooseDate" class="fw-bold fst-italic">**Pilih tanggal terlebih dahulu</div>
-                                <div class="d-flex flex-wrap show-time">
-                                    
+    <section class="content">
+        <div class="container-fluid">
+            <div class="col-md-10 mx-auto pb-5">
+                <div class="timeStart"></div>
+                <h1 class="mt-3">{{ $court[0]->court->name }}</h1>
+                <form action="{{ route('admin.bookCourt') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if ($booked_schedule->count() < 1)
+                        @php
+                            $booked_id = 1;
+                        @endphp
+                    @else
+                        @php
+                            $booked_id = $latest->booking_id;
+                            $booked_id += 1;
+                        @endphp
+                    @endif
+                    <input type="hidden" name="court_id" value="{{ $court[0]->court_id }}">
+                    <input type="hidden" name="booked_id" value="{{ $booked_id }}">
+        
+                    <div class="row">
+                        <div class="col mb-3">
+                            {{-- <label for="name" class="form-label">Nama</label> --}}
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Nama" required>
+                        </div>
+            
+                        <div class="col mb-3">
+                            {{-- <label for="datepick" class="form-label">Pilih hari</label> --}}
+                            <input id="datepick" name="datepick" type="date" min="{{ $startDate }}" max="{{ $endDate }}"
+                                class="form-control" required>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col mb-3">
+                            {{-- <label for="collapseThree" class="form-label">Jadwal Tersedia</label> --}}
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <a class="form-control text-left collapsed text-decoration-none text-secondary" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                                            aria-controls="collapseThree">
+                                            Pilih Jadwal
+                                        </a>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div id="chooseDate" class="fw-bold fst-italic">**Pilih tanggal terlebih dahulu</div>
+                                            <div class="d-flex flex-wrap gap-2 show-time">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+            
+                        <div class="col mb-3">
+                            {{-- <label for="payment_metode" class="form-label">Metode Pembayaran</label> --}}
+                            <select class="form-select" name="payment_metode" required>
+                                <option disabled selected>Pilih metode</option>
+                                <option value="Bank">Transfer Bank</option>
+                                <option value="e-Wallet">e-Wallet</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+        
+                    <div class="d-flex justify-content-center mt-3">
+                        <button type="submit" class="btn btn-danger px-5 rounded-5">Sewa Sekarang</button>
+                    </div>
+                </form>
             </div>
-
-            <div class="col mb-3">
-                <label for="payment_metode" class="form-label">Metode Pembayaran</label>
-                <select class="form-select" name="payment_metode" required>
-                    <option selected>Pilih metode</option>
-                    <option value="Bank">Transfer Bank</option>
-                    <option value="e-Wallet">e-Wallet</option>
-                </select>
-            </div>
-
-            <div class="col">
-                <button type="submit" class="btn btn-outline-primary">Booking</button>
-                {{-- <a href="{{ url('/booking') }}" class="btn btn-outline-primary">Booking</a> --}}
-            </div>
-        </form>
-    </div>
+        </div>
+    </section>
 
     @if (Session::has('checkLogin'))
         <script>
@@ -105,8 +112,6 @@
                 showCancelButton: true,
                 showConfirmButton: false,
                 footer: '<a href="{{ url('/login') }}">Login sekarang</a>'
-                // timer: 3000,
-                // timerProgressBar: true,
             })
         </script>
     @endif
@@ -168,7 +173,7 @@
                                 minimumFractionDigits: 0
                             }).format(item.price);
                             output = `
-                                <div class="col-md-2">
+                                <div>
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input sch schedule-${item.id}"
                                             type="checkbox" id="schedule-${item.id}"

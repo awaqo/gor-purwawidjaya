@@ -24,7 +24,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.transaction') }}" class="nav-link {{ request()->is('admin/transaksi') ? 'active' : '' }}">
+                    <a href="{{ route('admin.transaction') }}" class="nav-link {{ request()->is('admin/transaksi*') ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-money-bill-transfer"></i>
                         <p>
                             Transaksi
@@ -32,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.manual-booking') }}" class="nav-link {{ request()->is('admin/manual-booking') ? 'active' : '' }}">
+                    <a href="{{ route('admin.manual-booking') }}" class="nav-link {{ request()->is('admin/manual-booking*') ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-calendar-check"></i>
                         <p>
                             Booking Manual
