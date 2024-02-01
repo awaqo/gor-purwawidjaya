@@ -14,15 +14,15 @@ class PaymentController extends Controller
      */
     public function index($id)
     {
-        $data = Transaction::where('id', $id)->get();
+        $transaction = Transaction::where('id', $id)->get();
         $transactionID = $id;
-        return view('customer.riwayat.upload-payment', compact('transactionID', 'data'));
+        return view('customer.riwayat.upload-payment', compact('transactionID', 'transaction'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public function storePayment(Request $request, $id)
     {
         $data = $request->all();
         $data['transaction_id'] = $id;

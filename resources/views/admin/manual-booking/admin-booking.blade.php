@@ -9,8 +9,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <div class="d-flex gap-2 align-items-center">
-                        <a href="{{ route('admin.manual-booking') }}" class="btn btn-outline-primary px-3">
-                            <i class="fa-solid fa-arrow-left"></i>
+                        <a href="{{ route('admin.manual-booking') }}" class="btn btn-outline-primary px-3 border border-light-subtle">
+                            <i class="fa-solid fa-arrow-left mr-1"></i> Kembali
                         </a>
                         <h1 class="fw-semibold">{{ $court[0]->court->court_name }}</h1>
                     </div>
@@ -66,7 +66,7 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="headingThree">
-                                        <a class="form-control text-left collapsed text-decoration-none text-secondary" type="button"
+                                        <a id="pilih-jadwal" class="form-control text-left collapsed text-decoration-none text-secondary" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
                                             aria-controls="collapseThree">
                                             Pilih Jadwal
@@ -96,7 +96,7 @@
                     </div>
         
                     <div class="d-flex justify-content-center mt-3">
-                        <button type="submit" class="btn btn-danger px-5 rounded-5">Sewa Sekarang</button>
+                        <button id="sewa-sekarang" type="submit" class="btn btn-danger px-5 rounded-5">Sewa Sekarang</button>
                     </div>
                 </form>
             </div>
@@ -175,7 +175,7 @@
                             output = `
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input sch schedule-${item.id}"
+                                        <input dusk="test-${item.id}" class="form-check-input sch schedule-${item.id}"
                                             type="checkbox" id="schedule-${item.id}"
                                             name="selectedSchedule[]" value="${item.id}">
                                         <label class="form-check-label" for="schedule-${item.id}">
@@ -216,9 +216,9 @@
                                 minimumFractionDigits: 0
                             }).format(item.price);
                             output = `
-                                <div class="col-md-2">
+                                <div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input sch schedule-${item.id}"
+                                        <input dusk="test-${item.id}" class="form-check-input sch schedule-${item.id}"
                                             type="checkbox" id="schedule-${item.id}"
                                             name="selectedSchedule[]" value="${item.id}">
                                         <label class="form-check-label" for="schedule-${item.id}">

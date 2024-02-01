@@ -36,7 +36,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary col-12">Submit</button>
+                <button type="submit" id="login-btn" class="btn btn-primary col-12">Masuk</button>
                 <div class="text-center mt-3">
                     <span class="text-secondary">Belum punya akun?</span> <a href="{{ route('register') }}">Daftar</a>
                 </div>

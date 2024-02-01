@@ -18,7 +18,7 @@
 
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
+            <a id="profile-dropdown" class="nav-link" data-toggle="dropdown" href="#">
                 Halo, {{ ucfirst(explode(' ', Auth::user()->name)[0]) }}
                 <span>
                     <i class="fa-solid fa-angle-down"></i>
@@ -27,14 +27,14 @@
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header fw-bold">GOR Purwawidjaya</span>
                 <div class="dropdown-divider"></div>
-                <li>
+                {{-- <li>
                     <a class="dropdown-item" href="#">
                         <i class="fa-solid fa-user mr-2"></i>Profil
                     </a>
                 </li>
                 <div class="dropdown-divider"></div>
                 <li><a class="dropdown-item" href="{{ route('riwayat-pesan') }}">Riwayat pesanan</a></li>
-                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div> --}}
                 <li>
                     <a class="dropdown-item" id="btnLogout" href="javascript:void(0);">
                         <i class="fa-solid fa-right-from-bracket mr-2"></i>Logout

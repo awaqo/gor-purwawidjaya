@@ -48,11 +48,13 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        if (Auth::user()->name == 'admin') {
+        if (Auth::user()->role == 'Admin') {
 			return redirect('admin/dashboard')->with('message', 'Selamat Datang di Admin Panel');
-		} else {
+		} elseif (Auth::user()->role == 'User') {
 			return redirect('/')->with('message', 'Selamat Datang di Website GOR Purwawidjaya!');
-		}
+		} else {
+            return redirect('/login');
+        }
     }
 
     public function logout(Request $request)

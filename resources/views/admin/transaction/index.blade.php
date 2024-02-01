@@ -28,12 +28,12 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col" class="bg-secondary text-light text-center">Nama User</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Status Pembayaran</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Status Booking</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Aksi</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Nama User</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Lapangan</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Tanggal</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Status Pembayaran</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Status Booking</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,7 +63,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.transaction.detail', $data->id) }}" class="btn btn-primary">
+                                    <a id="open-detail-{{ $data->order_status }}" href="{{ route('admin.transaction.detail', $data->id) }}" class="btn btn-primary">
                                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     </a>
                                 </td>

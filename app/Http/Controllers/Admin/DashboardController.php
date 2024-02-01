@@ -12,10 +12,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = User::where('role', 'User')->get();
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+
         $court = Court::get();
         $transaction = Transaction::get();
-        $confirmTrans = Transaction::where('payment_status', 'paid')
+
+        $needConfirm = Transaction::where('payment_status', 'paid')
             ->where('order_status', 'need_confirm')
             ->count();
 
@@ -25,10 +28,15 @@ class DashboardController extends Controller
             ->get();
 
         $confirmTransaction = Transaction::with(['user', 'court'])
-        ->where('order_status', 'need_confirm')
-        ->orderBy('created_at')
-        ->get();
+            ->where('order_status', 'need_confirm')
+            ->orderBy('created_at')
+            ->get();
 
-        return view('admin.dashboard.index', compact('user', 'court', 'transaction', 'inTransaction', 'confirmTransaction', 'confirmTrans'));
+        $monthlyIncome = Transaction::where('payment_status', 'paid')
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
+            ->sum('total');
+
+        return view('admin.dashboard.index', compact('court', 'transaction', 'inTransaction', 'confirmTransaction', 'needConfirm', 'monthlyIncome', 'currentMonth'));
     }
 }

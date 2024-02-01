@@ -146,4 +146,9 @@ class ManualBookingController extends Controller
 
         return response()->json($showSchedule);
     }
+
+    public function updateStatus(Request $request)
+    {
+        Transaction::where('booking_id', $request->bookingid)->update(['order_status' => 'completed']);
+    }
 }

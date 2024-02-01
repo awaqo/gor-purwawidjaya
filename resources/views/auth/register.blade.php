@@ -59,9 +59,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary col-12">Submit</button>
+                <button type="submit" class="btn btn-primary col-12">Daftar</button>
                 <div class="text-center mt-3">
-                    <span class="text-secondary">Sudah punya akun?</span> <a href="{{ route('login') }}">Login</a>
+                    <span class="text-secondary">Sudah punya akun?</span> <a href="{{ route('login') }}">Masuk</a>
                 </div>
             </form>
         </div>

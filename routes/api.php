@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ManualBookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
@@ -24,3 +25,4 @@ Route::post('/check-sch', [TransactionController::class, 'checkSch'])->name('che
 Route::post('/show-sch', [TransactionController::class, 'showSchedule'])->name('show-sch');
 
 Route::post('/update-status', [HomeController::class, 'updateStatus'])->name('update-status');
+Route::post('/update-status', [ManualBookingController::class, 'updateStatus'])->name('update-status');

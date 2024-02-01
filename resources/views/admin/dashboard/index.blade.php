@@ -28,18 +28,17 @@
             <div class="row">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3>{{ $transaction->count() }}</h3>
-
-                            <p>Transaksi</p>
+                    <div class="small-box bg-primary">
+                        <div class="text-center pb-3">
+                            <div class="fs-5 mb-2 pt-3">Transaksi</div>
+                            <h3 class="">{{ $transaction->count() }}</h3>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
+                        {{-- <div class="icon">
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+                        </div> --}}
                         <div class="small-box-footer py-1">
-                            <a href="#" class="text-white">
-                                <strong class="badge fs-6 rounded-pill bg-danger">{{ $confirmTrans }}</strong> Transaksi perlu konfirmasi
+                            <a href="{{ route('admin.transaction') }}" class="text-white">
+                                <strong class="badge fs-6 rounded-pill bg-danger">{{ $needConfirm }}</strong> Transaksi perlu konfirmasi
                             </a>
                         </div>
                     </div>
@@ -47,31 +46,31 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{ $court->count() }}</h3>
-
-                            <p>Lapangan</p>
+                    <div class="small-box bg-danger">
+                        <div class="text-center pb-3">
+                            <div class="fs-5 mb-2 pt-3">Lapangan</div>
+                            <h3 class="">{{ $court->count() }}</h3>
                         </div>
-                        <div class="icon">
-                            <i class="fa-solid fa-table"></i>
-                        </div>
+                        {{-- <div class="icon">
+                            <i class="fa-solid fa-table-columns"></i>
+                        </div> --}}
                         <div class="small-box-footer py-3"></div>
                     </div>
                 </div>
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                            <h3>{{ $user->count() }}</h3>
-
-                            <p>User Registrations</p>
+                    <div class="small-box bg-success">
+                        <div class="text-center pb-3">
+                            <div class="fs-5 mb-2 pt-3">Pendapatan Bulanan</div>
+                            <h3 class="">Rp {{ number_format($monthlyIncome, 0, ',', '.') }}</h3>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
+                        {{-- <div class="icon">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div> --}}
+                        <div class="small-box-footer py-1">
+                            <p class="m-0 fw-semibold text-white">- {{ date('F', strtotime($currentMonth)) }} -</p>
                         </div>
-                        <div class="small-box-footer py-3"></div>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -100,10 +99,10 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col" class="bg-secondary text-light text-center">Nama User</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Status Pembayaran</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Nama User</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Lapangan</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Tanggal</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Status Pembayaran</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,12 +133,12 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th scope="col" class="bg-secondary text-light text-center">Nama User</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Tanggal</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Status Pembayaran</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Status Pesanan</th>
-                                <th scope="col" class="bg-secondary text-light text-center">Aksi</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Nama User</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Lapangan</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Tanggal</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Status Pembayaran</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Status Pesanan</th>
+                                <th scope="col" class="bg-primary-subtle text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,7 +158,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="">
+                                        <a href="{{ route('admin.transaction.detail', $data->id) }}">
                                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                         </a>
                                     </td>
@@ -211,6 +210,15 @@
                 text: "{{ Session::get('CustArea') }}",
                 timer: 3000,
                 timerProgressBar: true,
+            })
+        </script>
+    @elseif (Session::has('successBooking'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Booking Berhasil',
+                text: "{{ Session::get('successBooking') }}",
+                confirmButtonText: 'OK',
             })
         </script>
     @endif

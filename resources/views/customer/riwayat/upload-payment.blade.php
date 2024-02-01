@@ -6,7 +6,7 @@
     <div>upload pembayaran</div>
     <hr>
     <div>Ringkasan</div>
-    @foreach ($data as $item)
+    @foreach ($transaction as $item)
         <div>Biaya Booking : Rp {{ number_format($item->total - $item->unique_payment_code, 0, ',', '.') }}</div>
         <div>Kode Unik : {{ number_format($item->unique_payment_code, 0, ',', '.') }}</div>
         <div>Grand Total : Rp {{ number_format($item->total, 0, ',', '.') }}</div>
@@ -34,13 +34,13 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Kirim</button>
+        <button type="submit" id="kirim-bukti" class="btn btn-primary">Kirim</button>
     </form>
 @endsection
 
 @push('scripts')
     <script>
-        var data = {!! json_encode($data) !!};
+        var data = {!! json_encode($transaction) !!};
         const amount = document.querySelector("#pay_amount");
         const message = document.querySelector("#pay_message");
 

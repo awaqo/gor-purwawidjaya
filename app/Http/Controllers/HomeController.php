@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Competition;
 use App\Models\Court;
 use App\Models\CourtImages;
+use App\Models\Facility;
+use App\Models\Maps;
 use App\Models\Schedule;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -38,7 +41,11 @@ class HomeController extends Controller
         $BkTime = Booking::get();
         $Timer = Schedule::get();
 
-        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'Timer'));
+        $compe = Competition::get();
+        $maps = Maps::get()->first();
+        $facility = Facility::get();
+
+        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'Timer', 'maps', 'compe', 'facility'));
     }
 
     public function updateStatus(Request $request)

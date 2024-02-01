@@ -27,13 +27,17 @@
             <div class="h4 mt-3">Daftar Lapangan</div>
             <div class="row justify-content-center">
                 @foreach ($courtList as $item)
-                    <a href="{{ url('admin/manual-booking/' . $item->court->id . '/' . $item->court->slug) }}"
+                    <a dusk="{{ $item->court->id }}_{{ $item->court->slug }}" href="{{ url('admin/manual-booking/' . $item->court->id . '/' . $item->court->slug) }}"
                         class="col-12 col-md-4 link-underline link-underline-opacity-0">
                         <div class="card">
                             <img src="{{ asset(Storage::url($item->image)) }}" class="card-img-top" alt="{{ $item->court_name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $item->court->court_name }}</h5>
-                                <p class="card-text">{{ $item->court->description }}</p>
+                                <p class="card-text">
+                                    <span style="overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                                        {!! $item->court->description !!}
+                                    </span>    
+                                </p>
                             </div>
                         </div>
                     </a>
@@ -46,10 +50,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col" class="bg-secondary text-light text-center">Lapangan</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Tanggal Main</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Nama Pembooking</th>
-                            <th scope="col" class="bg-secondary text-light text-center">Jam Main</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Lapangan</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Tanggal Main</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Nama Pembooking</th>
+                            <th scope="col" class="bg-primary-subtle text-center">Jam Main</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -68,7 +68,7 @@
                                         <div>Silahkan transfer ke :</div>
                                         <div>Bank</div>
                                         <div class="fw-bold">123456789876</div>
-                                        <div>a/n <span class="fw-bold">Qweqw Asdas</span></div>
+                                        <div>a/n <span class="fw-bold">Pengelola GOR</span></div>
                                         <div>Nominal : <span class="fw-bold">Rp
                                                 {{ number_format($data->total, 0, ',', '.') }}</span></div>
                                     </div>
@@ -79,7 +79,7 @@
     
                     @if ($data->payment_status == 'unpaid')
                         <div>
-                            <a class="btn btn-outline-primary" href="{{ route('page.upload-pembayaran', $data->id) }}">Upload
+                            <a class="btn btn-outline-primary" id="upload-bukti-btn" href="{{ route('page.upload-pembayaran', $data->id) }}">Upload
                                 Bukti
                                 Pembayaran</a>
                         </div>
