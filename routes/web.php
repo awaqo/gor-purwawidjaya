@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\CompetitionController;
+use App\Http\Controllers\Admin\CompetitionController as AdminCompetitionController;
+use App\Http\Controllers\CompetitionController;
+use App\Http\Controllers\AcademyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManualBookingController;
 use App\Http\Controllers\Admin\TransactionController as AdminTransactionController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -80,7 +83,7 @@ Route::middleware('isAdmin')->group(function() {
         
         // Informasi Umum
         Route::prefix('umum')->group(function() {
-            Route::controller(CompetitionController::class)->group(function() {
+            Route::controller(AdminCompetitionController::class)->group(function() {
                 Route::get('/perlombaan', 'index')->name('admin.competition');
             });
     
@@ -123,10 +126,25 @@ Route::middleware('isCustomer')->group(function() {
 
     Route::controller(HistoryController::class)->group(function() {
         Route::get('/riwayat-pesanan', 'index')->name('riwayat-pesan')->middleware('checkLogin');
+        Route::post('/riwayat-pesanan/cancel-booking', 'cancelBooking')->name('cancel-booking');
     });
 
     Route::controller(PaymentController::class)->group(function() {
         Route::get('/riwayat-pesanan/upload-pembayaran/{id}', 'index')->name('page.upload-pembayaran');
         Route::post('/riwayat-pesanan/upload-pembayaran/{id}', 'storePayment')->name('upload-pembayaran');
+    });
+
+    Route::controller(CompetitionController::class)->group(function() {
+        Route::get('/info-perlombaan', 'index')->name('info-lomba');
+        Route::get('/info-perlombaan/detail/{slug}', 'show')->name('detail-lomba');
+    });
+
+    Route::controller(AcademyController::class)->group(function() {
+        Route::get('/info-akademi', 'index')->name('info-akademi');
+        Route::get('/info-akademi/detail/{slug}', 'show')->name('detail-akademi');
+    });
+
+    Route::controller(ProfileController::class)->group(function() {
+        Route::get('/profil/{id}', 'show')->name('profil');
     });
 });

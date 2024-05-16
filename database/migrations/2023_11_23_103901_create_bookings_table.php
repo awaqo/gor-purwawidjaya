@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('booking_id');
+            $table->integer('booking_id')->unsigned();
             $table->string('schedule_id');
             $table->string('play_time');
             // $table->foreignId('schedule_id')->constrained('schedules')->cascadeOnUpdate();

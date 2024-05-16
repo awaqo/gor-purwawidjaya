@@ -1,0 +1,886 @@
+*{
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.poppins-thin {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: normal;
+  }
+  
+  .poppins-extralight {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+  }
+  
+  .poppins-light {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .poppins-medium {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .poppins-semibold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  .poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .poppins-extrabold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+  }
+  
+  .poppins-black {
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+  
+  .poppins-thin-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+  }
+  
+  .poppins-extralight-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-style: italic;
+  }
+  
+  .poppins-light-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  .poppins-regular-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .poppins-medium-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+  }
+  
+  .poppins-semibold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: italic;
+  }
+  
+  .poppins-bold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+  .poppins-extrabold-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-style: italic;
+  }
+  
+  .poppins-black-italic {
+    font-family: "Poppins", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+  }
+
+  .lobster-regular {
+    font-family: "Lobster", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .text-color-primary {
+    color: #0B251C !important;
+  }
+
+  .text-color-secondary {
+    color: #3B5049 !important;
+  }
+
+  .text-color-red {
+    color: #FC4C47 !important;
+  }
+
+  .text-color-icon {
+    color: #78828E !important;
+    text-decoration: none;
+  }
+
+  .text-color-icon:hover {
+    color: #ffffff !important;
+  }
+
+  /*  */
+  
+  .form-max-w {
+    max-width: 489px;
+  }
+
+  .toggle-psw {
+    position: absolute;
+    right: 24px;
+    top: 30%;
+  }
+
+  .login-btn {
+    height: 60px;
+    background: #A9AEB4;
+    color: #ffffff;
+    border: none;
+    border-radius: 200px;
+    padding: 10px 24 !important;
+  }
+
+  .button-on {
+    height: 60px;
+    background: #B7EB38;
+    color: #0B251C;
+    border: none;
+    border-radius: 200px;
+    padding: 10px 24 !important;
+    transition: 0.3s;
+  }
+
+  .button-on:hover {
+    background: #a4d42b;
+  }
+
+  /* .login-btn:hover {
+    background: #B7EB38;
+    color: #0B251C;
+  } */
+
+  .text-link {
+    text-decoration: none;
+    color: #0B251C;
+  }
+
+  .text-link:hover {
+    color: #B7EB38;
+  }
+
+  .image-wrapper {
+    display: flex;
+    height: 100vh;
+  }
+
+  .form-wrapper {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    margin-left: 18px !important;
+    /* padding-right: 12px !important; */
+  }
+
+  .form-wrapper-register {
+    display: flex;
+    /* height: 100%; */
+    justify-content: center;
+    /* align-items: center; */
+    margin-left: 18px !important;
+    /* padding-right: 12px !important; */
+  }
+
+  .image-wrapper-register {
+    display: flex;
+    /* width: max-content; */
+
+    max-height: 100%;
+    /* height: 100%; */
+  }
+
+  .image-register {
+    position: absolute;
+    right: 0;
+  }
+
+  .toggle-psw-register {
+    position: absolute;
+    right: 30px;
+    top: 18px;
+  }
+
+  /* navbar */
+  .bg-navbar {
+    background-color: #0B251C;
+  }
+
+  /* home */
+  .background-hero-body {
+    background-color: #EDF3F1; 
+    width: 100%; 
+    margin-top: 90px
+  }
+
+  .btn-sewa-home {
+    background-color: #B7EB38;
+    color: #0B251C;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 15px 30px;
+  }
+
+  /* akademi*/
+  .btn-join-academy {
+    width: fit-content;
+    background-color: #ffffff;
+    color: #0B251C;
+    text-decoration: none;
+    border: 2px solid #0B251C;
+  }
+
+  /* choose court */
+  .background-choose-court {
+    background-color: #EDF3F1; 
+    width: 100%;
+  }
+
+  /* testimoni */
+  .background-testimoni {
+    background-color: #EDF3F1;
+    width: 100%;
+  }
+
+  /* perlombaan */
+  .join-now {
+    background: #A9AEB4;
+    color: #ffffff;
+    border: none;
+  }
+
+  .join-now:hover {
+    background: #B7EB38;
+    color: #0B251C;
+  }
+
+  .btn-booking {
+    background: #A9AEB4 !important;
+    border: none !important;
+    color: #ffffff !important;
+  }
+
+  .btn-booking:hover {
+    background: #B7EB38 !important;
+    color: #0B251C !important;
+  }
+
+  .btn-logout {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 14px;
+    color: #FC4C47;
+  }
+
+  .btn-logout:hover {
+    background: #ffe7e7;
+  }
+
+  .profile-menu {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 14px;
+  }
+
+  .profile-menu:hover {
+    background: #f4ffd5;
+  }
+
+  .profile-menu-active {
+    background: #B7EB38;
+  }
+
+  .profile-menu-active:hover {
+    background: #a1d225;
+  }
+
+  .btn-simpan-profil {
+    background: #A9AEB4;
+    color: #ffffff;
+  }
+
+  .btn-simpan-profil:hover {
+    background: #B7EB38;
+    color: #0B251C;
+  }
+
+  .play-time {
+    font-size: 12px;
+    background: #B7EB38;
+    padding: 4px;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 8px;
+    margin-bottom: 2px;
+  }
+
+  @media screen and (min-width: 320px) {
+    .background-hero-body {
+      background-color: #EDF3F1; 
+      width: 100%; 
+      margin-top: 60px
+    }
+
+    .hero-body {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 14px;
+      padding-bottom: 70px;
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+
+    .title-body {
+      font-size: 20px;
+    }
+
+    .title-highlight {
+      background-color: #B7EB38;
+      border-radius: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .sub-title-body {
+      font-size: 16px;
+      line-height: 27px;
+    }
+
+    .title-text {
+      font-size: 24px;
+    }
+
+    .card-img-top {
+      height: 250px !important;
+      border-top-left-radius: 10px !important;
+      border-top-right-radius: 10px !important
+    }
+
+    .academy-wrapper {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .facility-wrapper {
+      margin-top: 60px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .testimoni-text {
+      font-size: 20px;
+      line-height: 34px;
+      -webkit-line-clamp: 5;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    .banner-competition {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      margin-top: 100px;
+      border-radius: 12px;
+      background: url('/assets/dist/img/lomba/jumbotron.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .banner-competition::after {
+      content: '';
+      position: absolute;
+      border-radius: 12px;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .banner-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .title-text-compe {
+      font-size: 24px;
+    }
+
+    .compe-card {
+      padding: 30px;
+    }
+
+    .text-compe-title {
+      font-size: 18px;
+    }
+
+    .text-compe-info {
+      font-size: 18px;
+    }
+
+    .banner-academy {
+      position: relative;
+      width: 100%;
+      height: 190px;
+      margin-top: 100px;
+      border-radius: 12px;
+      background: url('/assets/dist/img/akademi/banner-academy.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .banner-academy::after {
+      content: '';
+      position: absolute;
+      border-radius: 12px;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .container-detail-compe {
+      margin-top: 80px;
+    }
+
+    .container-booking {
+      margin-top: 90px;
+    }
+
+    .container-profil {
+      margin-top: 90px;
+    }
+
+    .status-info {
+      background: #ffe7e7;
+      color: #0B251C;
+      width: 100%;
+      border-radius: 12px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .status-info-done {
+      background: #198754;
+      color: #ffffff;
+      width: 100%;
+      border-radius: 12px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .btn-pay-now {
+      background: #B7EB38;
+      color: #0B251C;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      border-radius: 12px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    .btn-pay-now:hover {
+      background: #a4d42b;
+    }
+
+    .btn-up-receipt {
+      background: #ffffff;
+      color: #0B251C;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      border: 1px solid #B7EB38;
+      border-radius: 12px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    .btn-up-receipt:hover {
+      background: #B7EB38;
+    }
+
+    .btn-cancel-book {
+      background: #ffffff;
+      color: #A9AEB4;
+      border: 2px solid #A9AEB4;
+    }
+
+    .btn-cancel-book:hover {
+      background: #FC4C47;
+      color: #ffffff;
+      border: 2px solid #FC4C47;
+    }
+
+    .list-booking {
+      background-color: #0B251C !important; 
+      width: 25% !important;
+    }
+  }
+
+  @media screen and (min-width: 576px) {
+    .background-hero-body {
+      background-color: #EDF3F1; 
+      width: 100%; 
+      margin-top: 60px
+    }
+
+    .hero-body {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 14px;
+      padding-bottom: 70px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .title-body {
+      font-size: 32px;
+    }
+
+    .title-highlight {
+      background-color: #B7EB38;
+      border-radius: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .sub-title-body {
+      font-size: 18px;
+      line-height: 27px;
+    }
+
+    .title-text {
+      font-size: 32px;
+    }
+
+    .card-img-top {
+      height: 350px !important;
+    }
+
+    .facility-wrapper {
+      margin-top: 80px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .mt-form-register {
+      margin-top: 100px !important;
+    }
+
+    .background-hero-body {
+      background-color: #EDF3F1; 
+      width: 100%; 
+      margin-top: 60px
+    }
+
+    .hero-body {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 14px;
+      padding-bottom: 70px;
+    }
+
+    .title-body {
+      font-size: 40px;
+    }
+
+    .title-highlight {
+      background-color: #B7EB38;
+      border-radius: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .sub-title-body {
+      font-size: 18px;
+      line-height: 27px;
+    }
+
+    .title-text {
+      font-size: 36px;
+    }
+
+    .text-compe-title {
+      font-size: 24px;
+    }
+
+    .banner-academy {
+      background-position: center;
+    }
+
+    .container-detail-compe {
+      margin-top: 100px;
+    }
+
+    .status-info {
+      width: fit-content;
+      border-radius: 8px;
+      padding: 8px 16px;
+    }
+
+    .status-info-done {
+      width: fit-content;
+      border-radius: 8px;
+      padding: 8px 16px;
+    }
+
+    .btn-pay-now {
+      /* display: flex; */
+      width: fit-content;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .btn-up-receipt {
+      /* display: flex; */
+      width: fit-content;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .pe-lg-5 {
+      padding-right: 25px;
+    }
+
+    .hero-body {
+      display: flex;
+      flex-direction: row;
+      gap: 0px;
+      padding-bottom: 0px;
+    }
+
+    .title-body {
+      font-size: 40px;
+    }
+
+    .title-highlight {
+      background-color: #B7EB38;
+      border-radius: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .sub-title-body {
+      font-size: 18px;
+      line-height: 27px;
+    }
+
+    .card-img-top {
+      height: 320px !important;
+    }
+
+    .facility-wrapper {
+      margin-top: 100px;
+    }
+
+    .testimoni-text {
+      font-size: 20px;
+      line-height: 34px;
+      -webkit-line-clamp: 3;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    .container-competition {
+      margin-top: 130px;
+    }
+
+    .banner-competition {
+      height: 275px;
+      border-radius: 24px;
+    }
+    .banner-competition::after {
+      border-radius: 24px;
+    }
+
+    .title-text-compe {
+      font-size: 38px;
+    }
+
+    .banner-academy {
+      height: 275px;
+      border-radius: 24px;
+    }
+    .banner-academy::after {
+      border-radius: 24px;
+    }
+
+    .container-detail-compe {
+      margin-top: 140px;
+    }
+
+    .container-booking {
+      margin-top: 130px;
+    }
+
+    .container-profil {
+      margin-top: 130px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .image-wrapper {
+      max-width: 95%;
+    }
+
+    .title-body {
+      font-size: 50px;
+    }
+
+    .title-highlight {
+      background-color: #B7EB38;
+      border-radius: 12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+  
+    .sub-title-body {
+      font-size: 20px;
+      line-height: 27px;
+    }
+
+    .title-text {
+      font-size: 50px;
+    }
+
+    /* academy */
+    .desc-academy {
+      font-size: 20px;
+      line-height: 34px;
+    }
+
+    /* facility */
+    .desc-facility {
+      font-size: 20px;
+      line-height: 34px;
+    }
+
+    .testimoni-text {
+      font-size: 20px;
+      line-height: 34px;
+      -webkit-line-clamp: 2;
+      overflow : hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+    }
+
+    .banner-competition {
+      margin-top: 150px;
+      height: 320px;
+    }
+
+    .title-text-compe {
+      font-size: 40px;
+    }
+
+    .banner-academy {
+      margin-top: 150px;
+      height: 320px;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    /* hero section */
+    .background-hero-body {
+      background-color: #EDF3F1; 
+      width: 100%; 
+      margin-top: 90px
+    }
+
+    .title-body {
+      font-size: 55px;
+      line-height: 84px;
+    }
+
+    /* slogan section */
+    .title-slogan {
+      font-size: 50px;
+      line-height: 80px;
+    }
+
+    .sub-title-slogan {
+      font-size: 18px;
+      line-height: 30px;
+    }
+  }
+
+  /* @media screen and (max-width: 576px) {
+    .background-hero-body {
+      background-color: #EDF3F1; 
+      width: 100%; 
+      margin-top: 30px
+    }
+
+    .hero-body {
+      padding-left: 22px;
+      padding-right: 22px;
+      padding-bottom: 72px;
+    }
+    .title-body {
+      font-size: 24px;
+      line-height: 36px;
+    }
+
+    .sub-title-body {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+  */
+
+  @media screen and (max-width: 768px) {
+    .w-md-100 {
+      width: 100% !important;
+    }
+  } 
+  
+  @media screen and (max-width: 1024px) {
+    .sidebar {
+      background-color: #0B251C;
+    }
+  }

@@ -20,21 +20,21 @@ class AdminSeeder extends Seeder
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',
                 'phone_number' => '08123456789',
-                'password' => bcrypt('admin123'),
+                'password' => bcrypt('admin1234'),
                 'role' => 'Admin'
             ],
             [
                 'name' => 'Randy M Sapoetra',
                 'email' => 'ocel@gmail.com',
                 'phone_number' => '098776512312',
-                'password' => bcrypt('ocel123'),
+                'password' => bcrypt('ocel1234'),
                 'role' => 'User'
             ],
             [
                 'name' => 'Rusman Hadi',
                 'email' => 'hadi@gmail.com',
                 'phone_number' => '085776512312',
-                'password' => bcrypt('hadi123'),
+                'password' => bcrypt('hadi1234'),
                 'role' => 'User'
             ],
         ];
