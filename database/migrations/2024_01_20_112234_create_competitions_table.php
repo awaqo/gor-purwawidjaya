@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
-            $table->string('location');
-            $table->date('date_start');
-            $table->date('date_end');
             $table->text('description');
+            $table->integer('price_competition')->unsigned();
+            $table->date('date_start');
+            $table->integer('slot_competition')->unsigned();
+            $table->string('category_competition');
+            $table->string('difficulty_competition');
+            $table->string('location_competition');
             $table->timestamps();
         });
     }

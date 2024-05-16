@@ -19,15 +19,12 @@ class CourtSeeder extends Seeder
         $data = [
             [
                 'court_name' => 'Lapangan 1',
-                'description' => 'Deskripsi lapangan 1'
             ],
             [
                 'court_name' => 'Lapangan 2',
-                'description' => 'Deskripsi lapangan 2'
             ],
             [
                 'court_name' => 'Lapangan 3',
-                'description' => 'Deskripsi lapangan 3'
             ],
         ];
 
@@ -37,7 +34,6 @@ class CourtSeeder extends Seeder
             Court::insert([
                 'court_name' => $item['court_name'],
                 'slug' => $slug,
-                'description' => $item['description'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

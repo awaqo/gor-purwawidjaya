@@ -17,18 +17,24 @@ class CompetitionSeeder extends Seeder
     {
         $data = [
             [
-                'title' => 'Perlombaan 1',
-                'location' => 'Lokasi Perlombaan 1',
-                'date_start' => '2024-02-01',
-                'date_end' => '2024-02-03',
-                'description' => 'Deskripsi Perlombaan 1'
+                'title' => 'Banteran Championship',
+                'description' => 'Perlombaan badminton yang diadakan di Gor Purwawidjaya memperingati hari jadi Gor Purwawidjaya ke 7 tahun dengan diadakan perlombaan badminton',
+                'price_competition' => '50000',
+                'date_start' => '2024-06-11',
+                'slot_competition' => '32',
+                'category_competition' => 'Ganda Putra',
+                'difficulty_competition' => 'Pemula & Menengah',
+                'location_competition' => 'GOR Purwawidjaya',
             ],
             [
-                'title' => 'Perlombaan 2',
-                'location' => 'Lokasi Perlombaan 2',
-                'date_start' => '2024-02-10',
-                'date_end' => '2024-02-13',
-                'description' => 'Deskripsi Perlombaan 2'
+                'title' => 'Championship Banteran',
+                'description' => 'Deskripsi Perlombaan 2',
+                'price_competition' => '35000',
+                'date_start' => '2024-07-02',
+                'slot_competition' => '20',
+                'category_competition' => 'Ganda Campuran',
+                'difficulty_competition' => 'Pemula & Menengah',
+                'location_competition' => 'GOR Purwawidjaya',
             ],
         ];
 
@@ -38,10 +44,13 @@ class CompetitionSeeder extends Seeder
             Competition::insert([
                 'title' => $item['title'],
                 'slug' => $slug,
-                'location' => $item['location'],
-                'date_start' => $item['date_start'],
-                'date_end' => $item['date_end'],
                 'description' => $item['description'],
+                'price_competition' => $item['price_competition'],
+                'date_start' => $item['date_start'],
+                'slot_competition' => $item['slot_competition'],
+                'category_competition' => $item['category_competition'],
+                'difficulty_competition' => $item['difficulty_competition'],
+                'location_competition' => $item['location_competition'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

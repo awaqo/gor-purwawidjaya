@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Models\Maps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +17,8 @@ class PaymentController extends Controller
     {
         $transaction = Transaction::where('id', $id)->get();
         $transactionID = $id;
-        return view('customer.riwayat.upload-payment', compact('transactionID', 'transaction'));
+        $maps = Maps::get()->first();
+        return view('customer.riwayat.upload-payment', compact('transactionID', 'transaction', 'maps'));
     }
 
     /**

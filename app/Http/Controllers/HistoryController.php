@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Models\Maps;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +27,11 @@ class HistoryController extends Controller
             ->distinct()
             ->get();
         $payment = Payment::whereIn('transaction_id', $transaction->pluck('id'))->get();
+        $maps = Maps::get()->first();
+        $BkTime = Booking::get();
         // dd($transaction);
 
-        return view('customer.riwayat.index', compact('transaction', 'payment'));
+        return view('customer.riwayat.index', compact('transaction', 'payment', 'maps', 'BkTime'));
     }
 
     /**
@@ -66,9 +69,10 @@ class HistoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function cancelBooking(Request $request)
     {
-        //
+        Transaction::where('id', $request->transaction_id)->update(['order_status' => 'cancelled']);
+        return redirect('/riwayat-pesanan')->with('cancelBooking', 'Anda telah membatalkan booking lapangan');
     }
 
     /**

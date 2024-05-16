@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\CourtImages;
 use App\Models\Schedule;
+use App\Models\Maps;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,7 +51,9 @@ class TransactionController extends Controller
             ->join('schedules', 'schedules.id', '=', 'bookings.schedule_id')
             ->select('transactions.*', 'bookings.*', 'schedules.*')
             ->get();
-        return view('customer.transaction.index', compact('startDate', 'endDate', 'court', 'schedules', 'date', 'booked_schedule', 'latest', 'checkBooked'));
+        $maps = Maps::get()->first();
+
+        return view('customer.transaction.index', compact('startDate', 'endDate', 'court', 'schedules', 'date', 'booked_schedule', 'latest', 'checkBooked', 'maps'));
     }
 
     public function bookCourt(Request $request)
