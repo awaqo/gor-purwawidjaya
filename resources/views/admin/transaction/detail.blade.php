@@ -31,22 +31,42 @@
                 <div class="fw-semibold fs-5">Data Pembayaran</div>
                 @if ($dataPayment !== null && $detailTransaction->user_id !== 1)
                     <div class="row mt-2 px-2 gap-2">
-                        <div class="px-3 py-3 bg-light border border-info rounded col-lg-3 col-6">
+                        <div class="px-3 py-3 bg-light border border-info rounded col-lg-5 col-12 col-md-5">
                             <div>Nominal</div>
                             <div class="fw-semibold fs-5">Rp {{ number_format($dataPayment->pay_amount, 0, ',', '.') }}
                             </div>
                         </div>
                         <div
-                            class="px-3 py-3 bg-light border border-info rounded col-lg-3 col-6 d-flex flex-row align-items-center">
+                            class="px-3 py-3 bg-light border border-info rounded col-lg-5 col-12 col-md-5 d-flex flex-row align-items-center">
                             <div class="col-3">
                                 <img src="{{ asset(Storage::url($dataPayment->payment_image)) }}" class="img-fluid"
                                     alt="">
                             </div>
                             <div>
-                                <a href="#" class="btn btn-outline-light text-dark">
+                                <a href="#" class="btn btn-outline-light text-dark" data-bs-toggle="modal" data-bs-target="#buktiBayar">
                                     Lihat bukti pembayaran
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="buktiBayar" data-bs-backdrop="static" data-bs-keyboard="false"
+                                    tabindex="-1" aria-labelledby="buktiBayarLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <button type="button" class="btn-close mt-3 me-3" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="px-4">
+                                                    <img src="{{ asset(Storage::url($dataPayment->payment_image)) }}" class="d-block w-100" alt="foto-bukti-pembayaran">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer border-0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,7 +98,9 @@
                         <tr class="text-center">
                             <td>{{ $detailTransaction->name }}</td>
                             <td>{{ $detailTransaction->court_name }}</td>
-                            <td><span class="badge bg-success">{{ date('d-m-Y', strtotime($detailTransaction->date)) }}</span></td>
+                            <td><span
+                                    class="badge bg-success">{{ date('d-m-Y', strtotime($detailTransaction->date)) }}</span>
+                            </td>
                             <td>
                                 @foreach ($BkTime->where('booking_id', $detailTransaction->booking_id) as $item)
                                     <span class="badge bg-primary">{{ $item->play_time }}</span>
@@ -106,9 +128,11 @@
                             </td>
                             <td>
                                 @if ($detailTransaction->order_status == 'confirmed')
-                                    <a href="javascript:void(0);" id="end-modal" data-bs-toggle="modal" data-bs-target="#endTransaction">Selesaikan Transaksi</a>
+                                    <a href="javascript:void(0);" id="end-modal" data-bs-toggle="modal"
+                                        data-bs-target="#endTransaction">Selesaikan Transaksi</a>
                                 @elseif ($detailTransaction->order_status == 'need_confirm')
-                                    <a href="javascript:void(0);" id="confirm-modal" data-bs-toggle="modal" data-bs-target="#confirmModal">Konfirmasi</a>
+                                    <a href="javascript:void(0);" id="confirm-modal" data-bs-toggle="modal"
+                                        data-bs-target="#confirmModal">Konfirmasi</a>
                                 @elseif ($detailTransaction->order_status == 'awaiting_payment')
                                     <div>Menunggu Pembayaran</div>
                                 @elseif ($detailTransaction->order_status == 'completed')
@@ -140,7 +164,8 @@
                     <div class="text-secondary">Pastikan nominal & bukti pembayaran sudah sesuai</div>
                 </div>
                 <div class="modal-footer border-0">
-                    <a href="{{ route('admin.transaction.confirm', $detailTransaction->id) }}" id="confirm-btn" class="btn btn-primary px-5">Yakin</a>
+                    <a href="{{ route('admin.transaction.confirm', $detailTransaction->id) }}" id="confirm-btn"
+                        class="btn btn-primary px-5">Yakin</a>
                 </div>
             </div>
         </div>
@@ -160,7 +185,8 @@
                     <div class="text-secondary">Pastikan pelanggan sudah selesai bermain</div>
                 </div>
                 <div class="modal-footer border-0">
-                    <a href="{{ route('admin.transaction.end', $detailTransaction->id) }}" id="end-btn" class="btn btn-primary px-5">Yakin</a>
+                    <a href="{{ route('admin.transaction.end', $detailTransaction->id) }}" id="end-btn"
+                        class="btn btn-primary px-5">Yakin</a>
                 </div>
             </div>
         </div>

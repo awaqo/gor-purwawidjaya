@@ -36,6 +36,8 @@ class HomeController extends Controller
             ->orderBy('transactions.created_at')
             ->distinct()
             ->get();
+        $Confirmed = Transaction::where('order_status', 'confirmed')->first();
+        $NeedConfirm = Transaction::where('order_status', 'need_confirm')->first();
 
         $BkTime = Booking::get();
         $Timer = Schedule::get();
@@ -43,7 +45,7 @@ class HomeController extends Controller
         $maps = Maps::get()->first();
         $facility = Facility::get();
 
-        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'Timer', 'maps', 'facility'));
+        return view('customer.index', compact('courts', 'date', 'lastBook', 'Transaction', 'BkTime', 'Timer', 'maps', 'facility', 'Confirmed', 'NeedConfirm'));
     }
 
     public function updateStatus(Request $request)

@@ -132,25 +132,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="noTrx">
-                            <td colspan="4" class="text-center py-4">Belum ada transaksi</td>
-                        </tr>
-                        @foreach ($Transaction as $data)
-                            @if ($data->payment_status == 'paid' && $data->order_status !== 'cancelled' && $data->order_status !== 'completed')
-                                <tr class="text-center" id="table-schedule">
-                                    <td id="{{ $data->booking_id }}" class="bk_id py-3">{{ $data->court_name }}</td>
-                                    <td class="py-3"><span
-                                            class="badge bg-success booking_date">{{ date('Y-m-d', strtotime($data->date)) }}</span>
-                                    </td>
-                                    <td class="py-3">{{ $data->booking_name }}</td>
-                                    <td class="py-3">
-                                        @foreach ($BkTime->where('booking_id', $data->booking_id) as $item)
-                                            <span class="badge bg-primary play_time">{{ $item->play_time }}</span>
-                                        @endforeach
-                                    </td>
-                                </tr>
-                            @endif
-                        @endforeach
+                        @if ($Confirmed != null || $NeedConfirm != null)
+                            @foreach ($Transaction as $data)
+                                @if ($data->payment_status == 'paid' && $data->order_status !== 'cancelled' && $data->order_status !== 'completed')
+                                    <tr class="text-center" id="table-schedule">
+                                        <td id="{{ $data->booking_id }}" class="bk_id py-3">{{ $data->court_name }}</td>
+                                        <td class="py-3"><span
+                                                class="badge bg-success booking_date">{{ date('Y-m-d', strtotime($data->date)) }}</span>
+                                        </td>
+                                        <td class="py-3">{{ $data->booking_name }}</td>
+                                        <td class="py-3">
+                                            @foreach ($BkTime->where('booking_id', $data->booking_id) as $item)
+                                                <span class="badge bg-primary play_time">{{ $item->play_time }}</span>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @else
+                            <tr class="noTrx">
+                                <td colspan="4" class="text-center py-4">Belum ada transaksi</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -188,6 +191,7 @@
             </div>
         </section>
 
+        {{-- Akademi --}}
         <section id="akademi">
             <div class="container my-3">
                 <div class="d-flex flex-lg-row flex-md-column row-gap-4 flex-wrap align-items-end academy-wrapper">
@@ -225,12 +229,24 @@
             </div>
         </section>
 
+        {{-- Fasilitas --}}
         <section id="fasilitas" style="margin-bottom: 60px">
             <div class="container my-3">
                 <div class="d-flex flex-lg-row flex-md-column row-gap-4 flex-wrap facility-wrapper">
                     <div class="col-12 col-md-12 col-lg-6">
-                        <img src="{{ asset('assets/dist/img/fasilitas/foto-fasilitas.png') }}" class="img-fluid w-md-100"
-                            alt="">
+                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('assets/dist/img/fasilitas/foto-fasilitas-1.png') }}" class="d-block w-100" alt="foto-fasilitas">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('assets/dist/img/fasilitas/foto-fasilitas-2.png') }}" class="d-block w-100" alt="foto-fasilitas">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('assets/dist/img/fasilitas/foto-fasilitas-3.png') }}" class="d-block w-100" alt="foto-fasilitas">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-12 col-md-12 col-lg-6 ps-lg-3">
@@ -317,6 +333,7 @@
             </div>
         </section>
 
+        {{-- Testimoni --}}
         <section id="testimoni" class="background-testimoni py-5">
             <div class="container py-5">
                 <div class="d-flex justify-content-center px-2">
@@ -326,48 +343,106 @@
                     </div>
                 </div>
 
-                <div class="d-flex flex-wrap row-gap-4 mt-5">
-                    <div class="col-12 col-md-6 col-lg-6 px-2">
-                        <div class="bg-white p-5 rounded-4">
-                            <div class="col">
-                                <div class="d-flex column-gap-4">
-                                    <div style="width: 72px; height: 72px">
-                                        <img src="{{ asset('assets/dist/img/testimoni/testi-1.jpg') }}"
-                                            class="img-fluid rounded-circle" alt="">
-                                    </div>
-                                    <div class="d-flex flex-column row-gap-2">
-                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Janet
+                <div class="col-lg-12 mt-5">
+                    <div class="owl-carousel owl-theme owl-loaded">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item">
+                                    <div class="col-12 px-2">
+                                        <div class="bg-white p-5 rounded-4">
+                                            <div class="col">
+                                                <div class="d-flex column-gap-4">
+                                                    <div style="width: 72px; height: 72px">
+                                                        <img src="{{ asset('assets/dist/img/testimoni/testi-1.jpg') }}"
+                                                            class="img-fluid rounded-circle" alt="">
+                                                    </div>
+                                                    <div class="d-flex flex-column row-gap-2">
+                                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Janet
+                                                        </div>
+                                                        <div class="col text-color-secondary">Pelajar</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col text-color-secondary mt-4 testimoni-text">
+                                                “Lapanganya banyak, tempat nya bersih dan enak. selain itu pelayananya juga enak & teratur
+                                                sesuai sama jadwal”
+                                            </div>
                                         </div>
-                                        <div class="col text-color-secondary">Pelajar</div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col text-color-secondary mt-4 testimoni-text">
-                                “Lapanganya banyak, tempat nya bersih dan enak. selain itu pelayananya juga enak & teratur
-                                sesuai sama jadwal”
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-6 px-2">
-                        <div class="bg-white p-5 rounded-4">
-                            <div class="col">
-                                <div class="d-flex column-gap-4">
-                                    <div style="width: 72px; height: 72px">
-                                        <img src="{{ asset('assets/dist/img/testimoni/testi-2.jpg') }}"
-                                            class="img-fluid rounded-circle" alt="">
-                                    </div>
-                                    <div class="d-flex flex-column row-gap-2">
-                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Ucup
+                                <div class="owl-item">
+                                    <div class="col-12 px-2">
+                                        <div class="bg-white p-5 rounded-4">
+                                            <div class="col">
+                                                <div class="d-flex column-gap-4">
+                                                    <div style="width: 72px; height: 72px">
+                                                        <img src="{{ asset('assets/dist/img/testimoni/testi-2.jpg') }}"
+                                                            class="img-fluid rounded-circle" alt="">
+                                                    </div>
+                                                    <div class="d-flex flex-column row-gap-2">
+                                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Ucup
+                                                        </div>
+                                                        <div class="col text-color-secondary">Pelajar</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col text-color-secondary mt-4 testimoni-text">
+                                                “Enak banget main di lapangan banteran, dari segi pelayanan oke, sesuai sama jadwal yang
+                                                tersedia”
+                                            </div>
                                         </div>
-                                        <div class="col text-color-secondary">Pelajar</div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col text-color-secondary mt-4 testimoni-text">
-                                “Enak banget main di lapangan banteran, dari segi pelayanan oke, sesuai sama jadwal yang
-                                tersedia”
+                                <div class="owl-item">
+                                    <div class="col-12 px-2">
+                                        <div class="bg-white p-5 rounded-4">
+                                            <div class="col">
+                                                <div class="d-flex column-gap-4">
+                                                    <div style="width: 72px; height: 72px">
+                                                        <img src="{{ asset('assets/dist/img/testimoni/testi-1.jpg') }}"
+                                                            class="img-fluid rounded-circle" alt="">
+                                                    </div>
+                                                    <div class="d-flex flex-column row-gap-2">
+                                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Janet
+                                                        </div>
+                                                        <div class="col text-color-secondary">Pelajar</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col text-color-secondary mt-4 testimoni-text">
+                                                “Lapanganya banyak, tempat nya bersih dan enak. selain itu pelayananya juga enak & teratur
+                                                sesuai sama jadwal”
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="col-12 px-2">
+                                        <div class="bg-white p-5 rounded-4">
+                                            <div class="col">
+                                                <div class="d-flex column-gap-4">
+                                                    <div style="width: 72px; height: 72px">
+                                                        <img src="{{ asset('assets/dist/img/testimoni/testi-2.jpg') }}"
+                                                            class="img-fluid rounded-circle" alt="">
+                                                    </div>
+                                                    <div class="d-flex flex-column row-gap-2">
+                                                        <div class="col poppins-semibold text-color-primary" style="font-size: 24px">Ucup
+                                                        </div>
+                                                        <div class="col text-color-secondary">Pelajar</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col text-color-secondary mt-4 testimoni-text">
+                                                “Enak banget main di lapangan banteran, dari segi pelayanan oke, sesuai sama jadwal yang
+                                                tersedia”
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -512,19 +587,24 @@
         today = yyyy + '-' + mm + '-' + dd;
 
         $(document).ready(function() {
-            if ($(".table-bordered > tbody > tr").length == null || $(".table-bordered > tbody > tr").length == 0 || $(".table-bordered > tbody > tr:not(:contains(lapangan))")) {
-                $(".noTrx").show();
-                console.log('kosong');
-            } else {
-                $(".noTrx").hide();
-                console.log('isi');
-            }
-            // if ($(".table-bordered > tbody > tr:contains(transaksi)") && $(".table-bordered > tbody > tr:contains(lapangan)")) {
-            //     $(".noTrx").hide();
-            // } else {
-            //     $(".noTrx").show();
-            // }
-
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                autoplay: true,
+                nav: false,
+                dots: true,
+                slideBy: 2,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:1
+                    },
+                    1000:{
+                        items:2
+                    },
+                }
+            });
             console.log(today);
 
             if (bookDate !== '') {
